@@ -1,0 +1,14 @@
+version: "3"
+services:
+
+    flask_test:
+      build: .
+      container_name: test
+      restart: always
+      volumes:
+        - ./:/myapp
+      environment:
+        - consumer_key
+        - consumer_secret
+      ports:
+        - 8080:8080
