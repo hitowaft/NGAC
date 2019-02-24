@@ -1,3 +1,0 @@
-Flask
-urllib3
-requests_oauthlib

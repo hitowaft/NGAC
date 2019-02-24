@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+<h3>{{message}}</h3>
+<!-- <p>{{ users }}</p> -->
+
+<p>ボタンをクリックしてTwitter連携する↓</p>
+<form class="" action="/twitter/request_token" method="GET">
+  <button type="submit" class="btn">連携する</button>
+</form>
+
+
+
+{% endblock %}

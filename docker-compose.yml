@@ -1,14 +1,28 @@
 version: "3"
+
 services:
 
-    flask_test:
-      build: .
-      container_name: test
-      restart: always
-      volumes:
-        - ./:/myapp
-      environment:
-        - consumer_key
-        - consumer_secret
-      ports:
-        - 8080:8080
+  # db:
+  #   image: postgres
+  #   environment:
+  #     - POSTGRES_USER
+  #     - POSTGRES_PASSWORD
+  #   ports:
+  #     - "5432:5432"
+  #
+
+
+  web:
+    build: .
+    image: flask_app
+    restart: always
+    volumes:
+      - ./src:/app
+    environment:
+      - CONSUMER_KEY
+      - CONSUMER_SECRET
+      - PYTHONIOENCODING
+    ports:
+      - 8080:8080
+    # depends_on:
+    #   - db
