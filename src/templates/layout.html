@@ -3,9 +3,13 @@
   <head>
     <title>{{ title }}</title>
     <!-- CSSファイルを追加 -->
-    <link rel="stylesheet" href="/static/app.css">
+    <link rel="stylesheet" href="/static/app.scss">
   </head>
-  
+
+  <header>
+    <a href="/">TOPに戻る</a>
+  </header>
+
   <body>
     {% block content %}
     <!-- ここにメインコンテンツを書く -->

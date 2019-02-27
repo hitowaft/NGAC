@@ -1,13 +1,12 @@
 # coding: utf-8
 
 import os
-import json
+import twitter
 from urllib.parse import parse_qsl
 
-from flask import Flask, session, jsonify, request, render_template, redirect
+from flask import Flask, session, request, render_template, redirect
 from requests_oauthlib import OAuth1Session
 from flask_sqlalchemy import SQLAlchemy
-# from flask.ext.session import Session
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -26,9 +25,6 @@ request_token_url = base_url + 'oauth/request_token'
 authenticate_url = base_url + 'oauth/authenticate'
 access_token_url = base_url + 'oauth/access_token'
 
-base_json_url = 'https://api.twitter.com/1.1/%s.json'
-user_timeline_url = base_json_url % ('statuses/user_timeline')
-
 # データベース
 from sqlalchemy.engine import Engine
 from sqlalchemy import event
@@ -39,15 +35,15 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor.execute("PRAGMA journal_mode=WAL")
     cursor.close()
 
-db_uri = "sqlite:///" + os.path.join(app.root_path, 'development.db') # 追加
-app.config['SQLALCHEMY_DATABASE_URI'] = db_uri # 追加
-db = SQLAlchemy(app) # 追加
+db_uri = "sqlite:///" + os.path.join(app.root_path, 'development.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+db = SQLAlchemy(app)
 
-class User(db.Model): # 追加
-    __tablename__ = "users" # 追加
-    id = db.Column(db.Integer, primary_key=True) # 追加
+class User(db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(), nullable=False)
-    oauth_token = db.Column(db.String(), nullable=False) # 追加
+    oauth_token = db.Column(db.String(), nullable=False)
     oauth_token_secret = db.Column(db.String(), nullable=False)
     user_id = db.Column(db.Integer, nullable=False, unique=True)
 
@@ -59,12 +55,12 @@ class User(db.Model): # 追加
 
 
 @app.route('/', methods=["GET", "POST"])
-def index():
+def top():
     if 'user_name' in session:
-        message = 'Hello ' + str(session['user_name'])
+        message = 'Hello, ' + str(session['user_name'])
     else:
         message = 'ログインしていません'
-    return render_template("test.html", message=message)
+    return render_template("top.html", message=message)
 
 # 認証画面（「このアプリと連携しますか？」の画面）のURLを返すAPI
 @app.route('/twitter/request_token', methods=['GET'])
@@ -89,13 +85,15 @@ def get_twitter_request_token():
     request_token.update({'authenticate_endpoint': authenticate_endpoint})
 
     return redirect(authenticate_endpoint)
-    # return jsonify(request_token)
 
 
 
 # アクセストークン（連携したユーザーとしてTwitterのAPIを叩くためのトークン）を返すAPI
 @app.route('/auth/twitter/callback', methods=['GET'])
 def get_twitter_access_token():
+
+    if request.args.get('denied'): #認証をキャンセルしたらトップに戻る
+        return redirect("/")
 
     oauth_token = request.args.get('oauth_token')
     oauth_verifier = request.args.get('oauth_verifier')
@@ -114,45 +112,52 @@ def get_twitter_access_token():
 
     access_token = dict(parse_qsl(response.content.decode("utf-8")))
 
-    # return jsonify(access_token)
     session["user_id"] = access_token["user_id"]
     session["user_name"] = access_token["screen_name"]
 
-    return redirect("/")
+    if User.query.filter_by(user_id=session["user_id"]).first() is None:
+        user = User(access_token["screen_name"], access_token["oauth_token"], access_token["oauth_token_secret"], access_token["user_id"])
+        db.session.add(user)
+        db.session.commit()
 
-    # user = User(access_token["screen_name"], access_token["oauth_token"], access_token["oauth_token_secret"], access_token["user_id"])
-    # db.session.add(user)
-    # db.session.commit()
-    # users = User.query.all()
-    # return users[0]
+    return redirect("/mutual_following_list")
 
-    # return access_token["oauth_token"]
 
-# @app.route('/twitter/user_timeline', methods=['GET'])
-# def get_twitter_user_timeline():
-#
-#     access_token = request.args.get('access_token')
-#
-#     params = {
-#         'user_id': request.args.get('user_id'),
-#         'exclude_replies': True,
-#         'include_rts': json.get('include_rts', False),
-#         'count': 20,
-#         'trim_user': False,
-#         'tweet_mode': 'extended',    # full_textを取得するために必要
-#     }
-#
-#     twitter = OAuth1Session(
-#         consumer_key,
-#         consumer_secret,
-#         access_token['oauth_token'],
-#         access_token['oauth_token_secret'],
-#     )
-#
-#     response = twitter.get(user_timeline_url, params=params)
-#     results = json.loads(response.text)
-#
-#     return jsonify(results)
+@app.route('/mutual_following_list', methods=['GET'])
+def show_mutual_following_list():
+    mutual_list = return_mutual_list()
+
+    return render_template("mutual_following_list.html", mutual_list=mutual_list)
+
+def return_mutual_list():
+    user = User.query.filter_by(user_id=session["user_id"]).first()
+    access_token = user.oauth_token
+    access_token_secret = user.oauth_token_secret
+
+    api = twitter.Api(consumer_key=consumer_key,
+                          consumer_secret=consumer_secret,
+                          access_token_key=access_token,
+                          access_token_secret=access_token_secret)
+
+
+    friends = set(api.GetFriendIDsPaged()[2])
+    followers = set(api.GetFollowerIDsPaged()[2])
+    # print([u.name for u in users])
+
+    followEachOtherSet = friends & followers
+    mutual_list = []
+
+    for users in followEachOtherSet:
+        u = api.GetUser(users)
+        mutual_list.append([u.name, u.screen_name, u.profile_image_url_https])
+
+    return mutual_list
+
+# @app.route('/message_and_date', methods=['GET', 'POST'])
+# def select_invite_message_and_date():
+
+
+
 
 if __name__ == "__main__":
     port = os.environ.get('PORT', 8080)

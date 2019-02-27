@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+<h3>{{message}}</h3>
+
+{% if message == "ログインしていません" %}
+  <p>ボタンをクリックしてTwitter連携する↓</p>
+  <form class="" action="/twitter/request_token" method="GET">
+    <button type="submit" class="btn">連携して相互フォローリストを見る</button>
+  </form>
+{% else %}
+  <form class="" action="/mutual_following_list" method="GET">
+    <button type="submit" class="btn">相互フォローリストを見る</button>
+  </form>
+{% endif %}
+
+
+
+{% endblock %}
