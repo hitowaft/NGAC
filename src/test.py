@@ -4,15 +4,6 @@ import os
 # import json
 import twitter
 
-# from app import *
-# db.create_all()
-# # from app import User
-#
-# me = User('hito_waft', '73703740-Ia2ykBPskKGI8KRRC3GmeGJLnDYSNFn40JWlusC67', "exwOchuPiw0doJQo5qoxrrWOxSvRrnVaxECNubeBjAOYC", "73703740")
-# db.session.add(me)
-# db.session.commit()
-#
-# logined_user = User.query.filter_by(user_name=)
 
 consumer_key = os.environ["CONSUMER_KEY"]
 consumer_secret = os.environ["CONSUMER_SECRET"]

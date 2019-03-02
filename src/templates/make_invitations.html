@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<!-- mutual_listはname, screen_name, iconのURL, user_id -->
+{% for user in mutual_list %}
+<div class="user_info">
+  <img src="{{user[2]}}" alt="">
+  name: {{user[0]}}(<a href="https://twitter.com/intent/user?screen_name={{user[1]}}">@{{user[1]}}</a>)
+</div>
+<div class="user_select_button">
+  <form action="/message_and_date" method="post">
+    <input type="checkbox" name="user_select" value="{{user[3]}}">
+
+  </div>
+  {% endfor %}
+    <!-- 招待メッセージ入力 -->
+    <textarea name="invite_message" rows="8" cols="80" placeholder="ここにメッセージを入力"></textarea>
+    <!-- 日時を選択 -->
+    <input name="calendar" id="calendar" data-mindate=today type="text" placeholder="日時を選択する">
+    <!-- お断りの文章を入力 -->
+    <textarea name="decline_message" rows="8" cols="80" placeholder="選択しなかったフォロワーにはここに入力した文章が表示されます"></textarea>
+    <button type="submit" class="btn">確認</button>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    flatpickr('#calendar', {
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+    });
+  </script>
+  <script type=text/javascript src="{{ url_for('static', filename='main.js') }}"></script>
+
+
+{% endblock %}

@@ -53,6 +53,18 @@ class User(db.Model):
         self.oauth_token_secret = oauth_token_secret
         self.user_id = user_id
 
+# class SelectedFollower(db.Model):
+#     __tablename__ = "selected_followers"
+#     id = db.Column(db.Integer, primary_key=True)
+#     selected_follower_list = db.Column(db.ARRAY(Integer), nullable=False)
+#     selected_date = db.Column(db.DateTime(), nullable=True)
+#     user_id = db.Column(db.Integer, nullable=False, unique=True), db.ForeignKey('user.user_id')
+#
+#     def __init__(self, selected_follower_list, selected_date, user_id):
+#         self.selected_follower_list = selected_follower_list
+#         self.selected_date = selected_date
+#         self.user_id = user_id
+
 
 @app.route('/', methods=["GET", "POST"])
 def top():
@@ -120,14 +132,14 @@ def get_twitter_access_token():
         db.session.add(user)
         db.session.commit()
 
-    return redirect("/mutual_following_list")
+    return redirect("/")
 
 
-@app.route('/mutual_following_list', methods=['GET'])
+@app.route('/make_invitations', methods=['GET'])
 def show_mutual_following_list():
     mutual_list = return_mutual_list()
 
-    return render_template("mutual_following_list.html", mutual_list=mutual_list)
+    return render_template("make_invitations.html", mutual_list=mutual_list)
 
 def return_mutual_list():
     user = User.query.filter_by(user_id=session["user_id"]).first()
@@ -149,13 +161,28 @@ def return_mutual_list():
 
     for users in followEachOtherSet:
         u = api.GetUser(users)
-        mutual_list.append([u.name, u.screen_name, u.profile_image_url_https])
+        mutual_list.append([u.name, u.screen_name, u.profile_image_url_https, u.id])
 
     return mutual_list
 
-# @app.route('/message_and_date', methods=['GET', 'POST'])
-# def select_invite_message_and_date():
+@app.route('/message_and_date', methods=['GET', 'POST'])
+def select_invite_message_and_date():
+    selected_user = request.form.getlist("user_select")
+    invite_message = request.form["invite_message"]
+    selected_date = request.form["calendar"]
 
+    return render_template("/message_and_date.html", selected_user=selected_user, invite_message=invite_message, date=selected_date)
+    # ここでデータベースにユーザーリストとメッセージと日時を追加する
+
+@app.route('/show_result/<user_name>', methods=["GET"])
+def show_result(user_name):
+
+    return render_template("/show_result.html")
+
+@app.route('/invitation/<user_name>', methods=["GET"])
+def show_invitation(user_name):
+
+    return render_template("/invitation.html")
 
 
 
