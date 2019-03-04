@@ -42,34 +42,36 @@ db = SQLAlchemy(app)
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(), nullable=False)
+    screen_name = db.Column(db.String(), nullable=False)
     oauth_token = db.Column(db.String(), nullable=False)
     oauth_token_secret = db.Column(db.String(), nullable=False)
     user_id = db.Column(db.Integer, nullable=False, unique=True)
 
-    def __init__(self, user_name, oauth_token, oauth_token_secret, user_id):
-        self.user_name = user_name
+    def __init__(self, screen_name, oauth_token, oauth_token_secret, user_id):
+        self.screen_name = screen_name
         self.oauth_token = oauth_token
         self.oauth_token_secret = oauth_token_secret
         self.user_id = user_id
 
-# class SelectedFollower(db.Model):
-#     __tablename__ = "selected_followers"
-#     id = db.Column(db.Integer, primary_key=True)
-#     selected_follower_list = db.Column(db.ARRAY(Integer), nullable=False)
-#     selected_date = db.Column(db.DateTime(), nullable=True)
-#     user_id = db.Column(db.Integer, nullable=False, unique=True), db.ForeignKey('user.user_id')
-#
-#     def __init__(self, selected_follower_list, selected_date, user_id):
-#         self.selected_follower_list = selected_follower_list
-#         self.selected_date = selected_date
-#         self.user_id = user_id
+class SelectedFollower(db.Model):
+    __tablename__ = "selected_followers"
+    id = db.Column(db.Integer, primary_key=True)
+    selected_follower_list = db.Column(db.Integer, nullable=False)
+    selected_date = db.Column(db.DateTime(), nullable=True)
+    user_id = db.Column(db.Integer, nullable=False, unique=True), db.ForeignKey('user.user_id')
+
+    def __init__(self, selected_follower_list, selected_date, user_id):
+        self.selected_follower_list = selected_follower_list
+        self.selected_date = selected_date
+        self.user_id = user_id
+
+    db.create_all()
 
 
 @app.route('/', methods=["GET", "POST"])
 def top():
-    if 'user_name' in session:
-        message = 'Hello, ' + str(session['user_name'])
+    if 'screen_name' in session:
+        message = 'Hello, ' + str(session['screen_name'])
     else:
         message = 'ログインしていません'
     return render_template("top.html", message=message)
@@ -125,7 +127,7 @@ def get_twitter_access_token():
     access_token = dict(parse_qsl(response.content.decode("utf-8")))
 
     session["user_id"] = access_token["user_id"]
-    session["user_name"] = access_token["screen_name"]
+    session["screen_name"] = access_token["screen_name"]
 
     if User.query.filter_by(user_id=session["user_id"]).first() is None:
         user = User(access_token["screen_name"], access_token["oauth_token"], access_token["oauth_token_secret"], access_token["user_id"])
@@ -174,13 +176,13 @@ def select_invite_message_and_date():
     return render_template("/message_and_date.html", selected_user=selected_user, invite_message=invite_message, date=selected_date)
     # ここでデータベースにユーザーリストとメッセージと日時を追加する
 
-@app.route('/show_result/<user_name>', methods=["GET"])
-def show_result(user_name):
+@app.route('/show_result/<screen_name>', methods=["GET"])
+def show_result(screen_name):
 
     return render_template("/show_result.html")
 
-@app.route('/invitation/<user_name>', methods=["GET"])
-def show_invitation(user_name):
+@app.route('/invitation/<screen_name>', methods=["GET"])
+def show_invitation(screen_name):
 
     return render_template("/invitation.html")
 
