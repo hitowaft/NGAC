@@ -3,3 +3,4 @@ urllib3
 requests_oauthlib
 python-twitter
 flask-sqlalchemy
+Flask-WTF
