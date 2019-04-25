@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<!-- mutual_listはname, screen_name, iconのURL, user_id -->
+{% for user in mutual_list %}
+<div class="user_info">
+  <img src="{{user[2]}}" alt="">
+  name: {{user[0]}}(<a href="https://twitter.com/intent/user?screen_name={{user[1]}}">@{{user[1]}}</a>)
+</div>
+<div class="user_select_button">
+  <form action="/message_and_date" method="POST">
+    <input type="checkbox" name="user_select" value="{{user[3]}}">
+
+  </div>
+  {% endfor %}
+  <input type="submit" name="submit" value="送信">
+
+{% endblock %}

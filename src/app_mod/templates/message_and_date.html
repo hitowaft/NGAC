@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+
+  <!-- 招待メッセージ入力 -->
+  {% for error in form.invite_message.errors %}
+    <span style="color: red;">{{ error }}</span>
+  {% endfor %}
+<br>
+  <h3>選択したフォロワー</h3>
+  {{info_added_followers}}<br>
+
+  <form action="/message_confirmation" method="post">
+      {{ form.hidden_tag() }}
+
+    <!-- 日時を選択 -->
+    <h3>締切日時を選ぶ</h3>
+    <input class="calendar" name="calendar" id="calendar" type="text" placeholder="締め切り日時を選択する">
+    <br>
+    <h3>{{ form.invite_message.label }}</h3>
+    {{ form.invite_message(size=110, placeholder="ここにメッセージを入力",  default=session["invite_message"], class_="invite_message")}}<br>
+
+
+    <!-- お断りの文章を入力 -->
+    <h3>選択しなかったユーザーから申し込みがあった場合のメッセージ</h3>
+    {{ form.decline_message(size=110, placeholder="選択しなかったフォロワーにはここに入力した文章が表示されます",  default=session["decline_message"], class_="message_form")}}
+
+    <!-- <textarea name="decline_message" rows="8" cols="80" placeholder="選択しなかったフォロワーにはここに入力した文章が表示されます"></textarea> -->
+    <!-- <button type="submit" class="btn">確認</button> -->
+  <p>{{ form.submit() }}</p>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  // if (document.GetElementById("calendar").value){
+  //    var default_date = document.GetElementById("calendar").value;
+  //  } else {
+  //    var default_date = "today"
+  //  }
+
+  const config = {
+    minDate: "today"
+    // defaultDate: default_date
+  }
+  flatpickr('#calendar', config);
+</script>
+<script type=text/javascript src="/static/main.js"></script>
+
+
+{% endblock %}

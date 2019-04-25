@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<form class="confirmation" action="/message_posting" method="post">
+
+<h3>選択したフォロワー</h3>
+  {{ selected_followers }}<br>
+<h3>Twitterに投稿するメッセージ</h3>
+  {{ invite_message }}<br>
+<h3>選択した締切日</h3>
+  {{ selected_date }}<br>
+<h3>選択しなかったフォロワーに表示されるメッセージ</h3>
+  {{ decline_message }}<br>
+  
+  <input type="submit" name="tweet" value="ツイートする">
+</form>
+
+
+{% endblock %}

@@ -2,8 +2,9 @@
 $(function(){
   // const flatpickr = require("flatpickr");
 
-  var textareaCountMax = 117;
-  $("[name=invite_message]").bind('keydown keyup keypress change',function(){
+  var textareaCountMax = 127;
+  // $("[name=invite_message]").bind('keydown keyup keypress change',function(){
+  $(".invite_message").bind('keydown keyup keypress change',function(){
       var thisValueLength = $(this).val().length;
       var countDown = (textareaCountMax)-(thisValueLength);
 

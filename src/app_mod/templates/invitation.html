@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% if login_status == "not_logged_in" %}
+    <p>招待に乗るにはボタンをクリックしてTwitterにログインしてください</p>
+    <form class="" action="/twitter/request_token" method="GET">
+      <button type="submit" class="btn">ログインする</button>
+    </form>
+
+{% else %}
+  {% if result != None %}
+    <p>おめ〜</p>
+    <!-- DMが飛ぶ -->
+  {% else %}
+    <p>残念でしたね…</p>
+    <p>{{ decline_message }}</p>
+    <!-- decleineメッセージを表示 -->
+  {% endif %}
+{% endif %}
+
+{% endblock %}

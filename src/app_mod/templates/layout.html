@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <!-- CSSファイルを追加 -->
+    <link rel="stylesheet" href="/static/app.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+  </head>
+
+  <header>
+    <a href="/">TOP</a>
+  </header>
+
+  <body>
+    {% with messages = get_flashed_messages() %}
+       {% if messages %}
+       <ul>
+          {% for message in messages %}
+          <li class="flash_message">{{ message }}</li>
+          {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}
+    {% block content %}{% endblock %}
+  </body>
+</html>
