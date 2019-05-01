@@ -14,10 +14,10 @@ services:
 
   web:
     build: .
-    image: flask_app
+    image: flask_app2
     restart: always
     volumes:
-      - .:/app
+      - ./src:/app
     environment:
       - CONSUMER_KEY
       - CONSUMER_SECRET
