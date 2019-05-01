@@ -17,7 +17,7 @@ services:
     image: flask_app
     restart: always
     volumes:
-      - ./src:/app
+      - .:/app
     environment:
       - CONSUMER_KEY
       - CONSUMER_SECRET
