@@ -14,7 +14,7 @@ services:
 
   web:
     build: .
-    image: flask_app
+    image: flask_app2
     restart: always
     volumes:
       - ./src:/app
