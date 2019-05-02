@@ -196,6 +196,8 @@ def select_invite_message_and_date():
 
     return render_template("/message_and_date.html", info_added_followers=info_added_followers, form=form)
 
+import datetime
+
 @app.route('/message_confirmation', methods=["GET", "POST"])
 def message_confirmation():
     form = MessageForm(request.form)
@@ -214,10 +216,10 @@ def message_confirmation():
 
     selected_followers = SelectedFollower.query.filter_by( user_id=session["user_id"]).all()
     session["invite_message"]  = request.form["invite_message"]
-    session["selected_date"]  = request.form["calendar"]
+    session["selected_date"]  = datetime.datetime.strptime(request.form["calendar"], "%Y-%m-%d")
     session["decline_message"]  = request.form["decline_message"]
 
-    messages = Message(invite_message=session["invite_message"], decline_message=request.form["decline_message"], user_id=session["user_id"])
+    messages = Message(invite_message=session["invite_message"], expiration_date=session["selected_date"],  decline_message=request.form["decline_message"], user_id=session["user_id"])
     db.session.add(messages)
 
     db.session.commit()
