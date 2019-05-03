@@ -4,7 +4,7 @@ from app_mod import db
 class User(db.Model):
     __tablename__ = "users"
     # id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer,index=True, unique=True, primary_key=True)
+    user_id = db.Column(db.String(),index=True, unique=True, primary_key=True)
     user_name = db.Column(db.String(), nullable=True)
     screen_name = db.Column(db.String(), nullable=False)
     user_image_url = db.Column(db.String(), nullable=True)
@@ -35,7 +35,7 @@ class SelectedFollower(db.Model):
     selected_follower_id = db.Column(db.Integer)
     # selected_follower_name = db.Column(db.String())
     timestamp = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    user_id = db.Column(db.String(), db.ForeignKey('users.user_id'))
 
     def __repr__(self):
         user = User.query.filter_by(user_id=self.selected_follower_id).first()
@@ -53,4 +53,4 @@ class Message(db.Model):
     invite_message = db.Column(db.String())
     decline_message = db.Column(db.String())
     expiration_date = db.Column(db.Date())
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    user_id = db.Column(db.String(), db.ForeignKey('users.user_id'))

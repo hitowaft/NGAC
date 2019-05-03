@@ -17,13 +17,14 @@ services:
     image: flask_app2
     restart: always
     volumes:
-      - ./src:/app
+      - .:/app
     environment:
       - CONSUMER_KEY
       - CONSUMER_SECRET
       - PYTHONIOENCODING
       - FLASK_APP
       - APP_BASE_URL
+      - LANG
     ports:
       - 8080:8080
     # depends_on:

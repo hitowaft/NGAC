@@ -10,7 +10,8 @@ WORKDIR /app/src
 
 
 
-RUN apt-get update && apt-get install python3 python3-pip vim sqlite3 -y
+RUN apt update && apt install python3 python3-pip vim sqlite3 sudo -y
+RUN sudo apt install python-dev libpq-dev -y
 RUN pip3 install -r requirements.txt
 
 
