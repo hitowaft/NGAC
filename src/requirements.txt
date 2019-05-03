@@ -5,3 +5,4 @@ python-twitter
 flask-sqlalchemy
 Flask-WTF
 flask-migrate
+psycopg2
