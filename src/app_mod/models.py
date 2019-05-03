@@ -32,7 +32,7 @@ class SelectedFollower(db.Model):
     __table_args__ = (db.UniqueConstraint("selected_follower_id", "user_id")),
 
     id = db.Column(db.Integer, primary_key=True)
-    selected_follower_id = db.Column(db.Integer)
+    selected_follower_id = db.Column(db.String())
     # selected_follower_name = db.Column(db.String())
     timestamp = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
     user_id = db.Column(db.String(), db.ForeignKey('users.user_id'))

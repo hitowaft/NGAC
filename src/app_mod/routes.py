@@ -82,7 +82,7 @@ def get_twitter_access_token():
 
     access_token = dict(parse_qsl(response.content.decode("utf-8")))
 
-    session["user_id"] = access_token["user_id"]
+    session["user_id"] = str(access_token["user_id"])
     session["screen_name"] = access_token["screen_name"]
 
     # 完全新規ユーザー
@@ -125,7 +125,7 @@ def show_mutual_following_list():
     mutual_list = return_mutual_list()
 
     for followers in mutual_list:
-        if User.query.filter_by(user_id=followers[3]).first():
+        if User.query.filter_by(user_id=str(followers[3])).first():
             continue
         else:
             user = User(user_id=followers[3], user_name=followers[0], screen_name=followers[1], user_image_url=followers[2])
