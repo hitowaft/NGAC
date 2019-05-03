@@ -128,7 +128,7 @@ def show_mutual_following_list():
         if User.query.filter_by(user_id=str(followers[3])).first():
             continue
         else:
-            user = User(user_id=followers[3], user_name=followers[0], screen_name=followers[1], user_image_url=followers[2])
+            user = User(user_id=str(followers[3]), user_name=followers[0], screen_name=followers[1], user_image_url=followers[2])
 
             db.session.add(user)
             db.session.commit()
@@ -206,10 +206,10 @@ def message_confirmation():
         return render_template("/message_and_date.html", form=form)
 
     for selected_follower in session["selected_followers"]:
-        if SelectedFollower.query.filter_by(selected_follower_id=selected_follower, user_id=session["user_id"]).first():
+        if SelectedFollower.query.filter_by(selected_follower_id=str(selected_follower), user_id=session["user_id"]).first():
             continue
         else:
-            sf = SelectedFollower(selected_follower_id=selected_follower, user_id=session["user_id"])
+            sf = SelectedFollower(selected_follower_id=str(selected_follower), user_id=session["user_id"])
             db.session.add(sf)
 
 
