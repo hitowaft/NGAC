@@ -24,7 +24,6 @@ authenticate_url = base_url + 'oauth/authenticate'
 access_token_url = base_url + 'oauth/access_token'
 
 
-
 @app.route('/', methods=["GET", "POST"])
 def top():
     if "screen_name" in session:
@@ -38,7 +37,7 @@ def top():
 def get_twitter_request_token():
 
     # Twitter Application Management で設定したコールバックURLsのどれか
-    oauth_callback = request.args.get('http://0.0.0.0:8080/auth/twitter/callback')
+    oauth_callback = request.args.get(os.environ.get('APP_BASE_URL') + 'auth/twitter/callback')
 
     twitter = OAuth1Session(consumer_key, consumer_secret)
 
@@ -229,8 +228,7 @@ def message_confirmation():
 @app.route('/message_posting', methods=["GET", "POST"])
 def message_posting():
     api = return_twitter_api()
-    api.PostUpdate(session["invite_message"] + " http://0.0.0.0:8080/invitation/{}".format(session["user_id"]))
-    # api.PostUpdate(session["invite_message"] + " http://hwhw.hatenablog.com/")
+    api.PostUpdate(session["invite_message"] + " {}invitation/{}".format(os.environ.get('APP_BASE_URL'), session["user_id"]))
 
     return render_template("/post_updated.html")
 
@@ -254,6 +252,9 @@ def show_invitation(host_id):
     if session.get("user_id") is None:
         login_status = "not_logged_in"
         return render_template("/invitation.html", login_status=login_status)
+
+    elif session.get("user_id") == session["host_id"]:
+        return redirect("/")
 
     else:
         api = return_twitter_api()
