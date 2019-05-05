@@ -30,13 +30,14 @@ def top():
         message = str(session['screen_name']) + "でログイン中"
     else:
         message = 'ログインしていません'
+
     return render_template("top.html", message=message)
 
 # 認証
 @app.route('/twitter/request_token', methods=['GET'])
 def get_twitter_request_token():
 
-    # Twitter Application Management で設定したコールバックURLsのどれか
+    # Twitter Application Management で設定したコールバックURL
     oauth_callback = request.args.get(os.environ.get('APP_BASE_URL') + 'auth/twitter/callback')
 
     twitter = OAuth1Session(consumer_key, consumer_secret)
@@ -112,7 +113,7 @@ def get_twitter_access_token():
     db.session.add(user)
     db.session.commit()
 
-    if session.get("host_id") is not None:
+    if session.get("host_id"):
         return redirect("/invitation/{}".format(session["host_id"]))
     else:
         return redirect("/")
@@ -262,14 +263,22 @@ def show_invitation(host_id):
         guest_user = api.GetUser(user_id=session["user_id"])
         host_user = User.query.filter_by(user_id=host_id).first()
 
-        result = SelectedFollower.query.filter_by(user_id=host_id, selected_follower_id=session["user_id"]).first()
+        result_wanna_meet = SelectedFollower.query.filter_by(user_id=host_id, selected_follower_id=session["user_id"]).first()
 
-        if result != None:
+        if result_wanna_meet.has_sent_dm == True:
+            decline_message = None
+
+
+        elif result_wanna_meet != None:
             api = return_twitter_api()
             api.PostDirectMessage("{}(@{})さんもあなたに会いたがっています！".format(guest_user.name, guest_user.screen_name), user_id=host_user.user_id)
+
+            result_wanna_meet.has_sent_dm = True
+            db.session.add(result_wanna_meet)
+            db.session.commit()
 
             decline_message = None
         else:
             decline_message = Message.query.filter_by(user_id=host_id).first().decline_message
 
-        return render_template("/invitation.html", result=result, decline_message=decline_message)
+        return render_template("/invitation.html", result_wanna_meet=result_wanna_meet, decline_message=decline_message)

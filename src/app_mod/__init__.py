@@ -3,9 +3,14 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
+import os
+
 app = Flask(__name__)
 app.config.from_object(Config)
-app.config["DEBUG"] = True
+
+if os.environ["APP_BASE_URL"] == "http://0.0.0.0:8080/":
+    app.config["DEBUG"] = True
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 

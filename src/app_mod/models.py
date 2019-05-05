@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from app_mod import db
 
 class User(db.Model):
@@ -34,8 +34,9 @@ class SelectedFollower(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     selected_follower_id = db.Column(db.String())
     # selected_follower_name = db.Column(db.String())
-    timestamp = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, nullable=True,  default=datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).date())
     user_id = db.Column(db.String(), db.ForeignKey('users.user_id'))
+    has_sent_dm = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         user = User.query.filter_by(user_id=self.selected_follower_id).first()
