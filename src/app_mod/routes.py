@@ -31,7 +31,10 @@ def top():
     else:
         message = 'ログインしていません'
 
-    return render_template("top.html", message=message)
+    # すでに招待状が存在すれば招待状作成ボタンを表示しない
+    exists_invitation = bool(Message.query.filter_by(user_id=session["user_id"]).first())
+
+    return render_template("top.html", message=message, exists_invitation=exists_invitation)
 
 # 認証
 @app.route('/twitter/request_token', methods=['GET'])
@@ -180,20 +183,6 @@ def select_invite_message_and_date():
         user = User.query.filter_by(user_id=follower_id).first()
         info_added_followers.append(user)
 
-    # if not form.validate():
-    #     flash("127文字以下で入力してください")
-    #     return redirect("/make_invitations")
-    # else:
-    #     invite_test = form.invite_message.data
-    # if not form.validate_on_submit():
-    #     flash("メッセージは127文字以下で入力してください")
-    #     return redirect('/message_and_date')
-
-    # session["invite_message"]  = request.form["invite_message"]
-    # session["selected_date"]  = request.form["calendar"]
-    # session["decline_message"]  = request.form["decline_message"]
-
-
     return render_template("/message_and_date.html", info_added_followers=info_added_followers, form=form)
 
 import datetime
@@ -265,9 +254,8 @@ def show_invitation(host_id):
 
         result_wanna_meet = SelectedFollower.query.filter_by(user_id=host_id, selected_follower_id=session["user_id"]).first()
 
-        if result_wanna_meet.has_sent_dm == True:
+        if result_wanna_meet != None and result_wanna_meet.has_sent_dm == True:
             decline_message = None
-
 
         elif result_wanna_meet != None:
             api = return_twitter_api()
@@ -278,7 +266,8 @@ def show_invitation(host_id):
             db.session.commit()
 
             decline_message = None
+
         else:
             decline_message = Message.query.filter_by(user_id=host_id).first().decline_message
 
-        return render_template("/invitation.html", result_wanna_meet=result_wanna_meet, decline_message=decline_message)
+        return render_template("/invitation.html", result_wanna_meet=result_wanna_meet, decline_message=decline_message, host_user_name=host_user.user_name)

@@ -9,15 +9,16 @@
     <button type="submit" class="btn">ログインする</button>
   </form>
 
-{% else %}
+{% elif exists_invitation == False %}
 
   <form class="" action="/make_invitations" method="GET">
     <button type="submit" class="btn">招待状を作成する</button>
   </form>
 
-  <!-- <form class="" action="/show_result/{{session["user_id"]}}" method="GET">
+{% else %}
+  <form class="" action="/show_result/{{session["user_id"]}}" method="GET">
     <button type="submit" class="btn">結果を確認する</button>
-  </form> -->
+  </form>
 
   <!-- <form class="" action="/invitation/{{session["user_id"]}}" method="GET">
     <button type="submit" class="btn">フォロワーの招待に乗る</button>

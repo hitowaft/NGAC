@@ -9,10 +9,11 @@
 
 {% else %}
   {% if result_wanna_meet != None %}
-    <p>おめ〜</p>
+    <p>{{host_user_name}}さんはあなたに会いたいそうです。{{host_user_name}}さんにDMを送信しました。</p>
     <!-- DMが飛ぶ -->
   {% else %}
-    <p>残念でしたね…</p>
+    <p>残念ながら今回あなたはリストに載っていませんでした。この結果が{{host_user_name}}さんに知られることはありません。</p>
+    <p>[メッセージ]</p>
     <p>{{ decline_message }}</p>
     <!-- decleineメッセージを表示 -->
   {% endif %}
