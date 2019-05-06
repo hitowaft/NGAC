@@ -227,10 +227,13 @@ def message_posting():
 
 
 
-@app.route('/show_result/<user_id>', methods=["GET"])
-def show_result(user_id):
+@app.route('/show_status/<user_id>', methods=["GET"])
+def show_status(user_id):
+    selected_followers = SelectedFollower.query.filter_by(user_id=user_id).all()
+    mutual_wanna_meet_list = SelectedFollower.query.filter_by(user_id=user_id, has_sent_dm=True).all()
+    expiration_date = Message.query.filter_by(user_id=user_id).first().expiration_date
 
-    return render_template("/show_result.html")
+    return render_template("/show_status.html", selected_followers=selected_followers, mutual_wanna_meet_list=mutual_wanna_meet_list, expiration_date=expiration_date)
 
 @app.route('/invitation/<host_id>', methods=["GET"])
 def show_invitation(host_id):
