@@ -19,6 +19,7 @@
     <input class="calendar" name="calendar" id="calendar" type="text" placeholder="締め切り日時を選択する">
     <br>
     <h3>{{ form.invite_message.label }}</h3>
+    <span class="count">0</span><br>
     {{ form.invite_message(size=110, placeholder="ここにメッセージを入力",  default=session["invite_message"], class_="invite_message")}}<br>
 
 
@@ -26,8 +27,6 @@
     <h3>選択しなかったユーザーから申し込みがあった場合のメッセージ</h3>
     {{ form.decline_message(size=110, placeholder="選択しなかったフォロワーにはここに入力した文章が表示されます",  default=session["decline_message"], class_="message_form")}}
 
-    <!-- <textarea name="decline_message" rows="8" cols="80" placeholder="選択しなかったフォロワーにはここに入力した文章が表示されます"></textarea> -->
-    <!-- <button type="submit" class="btn">確認</button> -->
   <p>{{ form.submit() }}</p>
 </form>
 
@@ -46,6 +45,16 @@
   flatpickr('#calendar', config);
 </script>
 <script type=text/javascript src="/static/main.js"></script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    $('.invite_message').bind('keydown keyup keypress change',function(){
+        var thisValueLength = $(this).val().length;
+        $('.count').html(thisValueLength);
+    });
+});
+</script>
 
 
 {% endblock %}
