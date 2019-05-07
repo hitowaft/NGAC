@@ -28,11 +28,11 @@ access_token_url = base_url + 'oauth/access_token'
 def top():
     if "screen_name" in session:
         message = str(session['screen_name']) + "でログイン中"
+        exists_invitation = bool(Message.query.filter_by(user_id=session["user_id"]).first())
     else:
         message = 'ログインしていません'
-
+        exists_invitation = False
     # すでに招待状が存在すれば招待状作成ボタンを表示しない
-    exists_invitation = bool(Message.query.filter_by(user_id=session["user_id"]).first())
 
     return render_template("top.html", message=message, exists_invitation=exists_invitation)
 
