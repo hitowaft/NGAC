@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<p>招待リスト</p>
+<h3>招待リスト</h3>
 {{ selected_followers }}
 
-<p>この招待状の期限</p>
+<h3>この招待状の期限</h3>
 {{ expiration_date }}
 
 {% if mutual_wanna_meet_list %}
-  <p>あなたに会いたいと思っている人</p>
+  <h3>あなたに会いたいと思っている人</h3>
   {{ mutual_wanna_meet_list }}
 {% endif %}
 

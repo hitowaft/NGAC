@@ -116,10 +116,10 @@ def get_twitter_access_token():
     db.session.add(user)
     db.session.commit()
 
-    if session.get("host_id"):
-        return redirect("/invitation/{}".format(session["host_id"]))
-    else:
-        return redirect("/")
+    # if session.get("host_id"):
+    #     return redirect("/invitation/{}".format(session["host_id"]))
+    # else:
+    return redirect("/")
 
 from message_form import MessageForm
 
