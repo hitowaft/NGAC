@@ -123,9 +123,8 @@ def get_twitter_access_token():
 
 from message_form import MessageForm
 
-@app.route('/make_invitations', methods=['GET'])
+@app.route('/select_users', methods=['GET'])
 def show_mutual_following_list():
-    global mutual_list
     mutual_list = return_mutual_list()
 
     for followers in mutual_list:
@@ -137,7 +136,7 @@ def show_mutual_following_list():
             db.session.add(user)
             db.session.commit()
 
-    return render_template("make_invitations.html", mutual_list=mutual_list)
+    return render_template("select_users.html", mutual_list=mutual_list)
 
 #twitter.apiインスタンスを返す
 def return_twitter_api():
@@ -174,8 +173,8 @@ def select_invite_message_and_date():
     form = MessageForm(request.form)
 
     session["selected_followers"]  = request.form.getlist("user_select")
-    # if request.form["calendar"]:
-    #     session["selected_date"]  = request.form["calendar"]
+    # if request.form[".calendar"]:
+    #     session["selected_date"]  = request.form[".calendar"]
 
     global info_added_followers
     info_added_followers = []
@@ -195,30 +194,45 @@ def message_confirmation():
 
         return render_template("/message_and_date.html", form=form)
 
-    for selected_follower in session["selected_followers"]:
-        if SelectedFollower.query.filter_by(selected_follower_id=str(selected_follower), user_id=session["user_id"]).first():
+    for selected_follower_id in session["selected_followers"]:
+        if SelectedFollower.query.filter_by(selected_follower_id=str(selected_follower_id), user_id=session["user_id"]).first():
             continue
         else:
-            sf = SelectedFollower(selected_follower_id=str(selected_follower), user_id=session["user_id"])
+            sf = SelectedFollower(selected_follower_id=str(selected_follower_id), user_id=session["user_id"])
             db.session.add(sf)
 
 
-    selected_followers = SelectedFollower.query.filter_by( user_id=session["user_id"]).all()
+    selected_followers_list = SelectedFollower.query.filter_by( user_id=session["user_id"]).all()
+
     session["invite_message"]  = request.form["invite_message"]
     session["selected_date"]  = datetime.datetime.strptime(request.form["calendar"], "%Y-%m-%d")
     session["decline_message"]  = request.form["decline_message"]
 
-    messages = Message(invite_message=session["invite_message"], expiration_date=session["selected_date"],  decline_message=request.form["decline_message"], user_id=session["user_id"])
-    db.session.add(messages)
+    # messages = Message(invite_message=session["invite_message"], expiration_date=session["selected_date"],  decline_message=request.form["decline_message"], user_id=session["user_id"])
+    # db.session.add(messages)
+    #
+    # db.session.commit()
 
-    db.session.commit()
+    return render_template("/message_confirmation.html", selected_followers_list = selected_followers_list, invite_message=session["invite_message"], selected_date=session["selected_date"] + datetime.timedelta(hours=23, minutes=59, seconds=59), decline_message=session["decline_message"])
 
-    return render_template("/message_confirmation.html", selected_followers = selected_followers, invite_message=session["invite_message"], selected_date=session["selected_date"], decline_message=session["decline_message"])
+# @app.route('/remove_messages', methods=["POST"])
+# def remove_messages():
+#     messages_to_rm = Message.query.filter_by(user_id=session["user_id"]).first()
+#
+#     db.session.delete(messages_to_rm)
+#     db.session.commit()
+#
+#     return render_template("/message_and_date.html")
 
 @app.route('/message_posting', methods=["GET", "POST"])
 def message_posting():
     api = return_twitter_api()
     api.PostUpdate(session["invite_message"] + " {}invitation/{}".format(os.environ.get('APP_BASE_URL'), session["user_id"]))
+
+    messages = Message(invite_message=session["invite_message"], expiration_date=session["selected_date"],  decline_message=session["decline_message"], user_id=session["user_id"])
+    db.session.add(messages)
+
+    db.session.commit()
 
     return render_template("/post_updated.html")
 
