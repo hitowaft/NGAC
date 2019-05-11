@@ -9,7 +9,7 @@ from app_mod import db
 import twitter
 from urllib.parse import parse_qsl
 
-app.secret_key = '\x11dO\xb3z\xcc\xf5^\x885\x9ah\x06\xca\x98s\xe5\xfa\xf0\xf5\r\xab\x87\x84'
+app.secret_key = os.environ["APP_SECRET_KEY"]
 # from flask_sqlalchemy import SQLAlchemy
 
 
