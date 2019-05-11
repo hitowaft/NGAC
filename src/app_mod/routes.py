@@ -282,3 +282,8 @@ def show_invitation(host_id):
             decline_message = Message.query.filter_by(user_id=host_id).first().decline_message
 
         return render_template("/invitation.html", result_wanna_meet=result_wanna_meet, decline_message=decline_message, host_user_name=host_user.user_name)
+
+
+@app.route('/usage', methods=["GET"])
+def usage():
+    return render_template("/usage.html")

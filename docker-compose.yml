@@ -25,6 +25,7 @@ services:
       - FLASK_APP
       - APP_BASE_URL
       - LANG
+      - APP_SECRET_KEY
     ports:
       - 8080:8080
     # depends_on:

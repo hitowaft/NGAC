@@ -8,9 +8,13 @@
     </form>
 
 {% else %}
-  {% if result_wanna_meet != None %}
+
+  {% if result_wanna_meet != None and result_wanna_meet.has_sent_dm == True %}
+    <p>{{host_user_name}}さんはあなたに会いたいそうです。{{host_user_name}}さんにDMを送信済みです。</p>
+
+  {% elif result_wanna_meet != None %}
     <p>{{host_user_name}}さんはあなたに会いたいそうです。{{host_user_name}}さんにDMを送信しました。</p>
-    <!-- DMが飛ぶ -->
+
   {% else %}
     <p>残念ながら今回あなたはリストに載っていませんでした。この結果が{{host_user_name}}さんに知られることはありません。</p>
     <p>[メッセージ]</p>
