@@ -194,26 +194,13 @@ def message_confirmation():
 
         return render_template("/message_and_date.html", form=form)
 
-    for selected_follower_id in session["selected_followers"]:
-        if SelectedFollower.query.filter_by(selected_follower_id=str(selected_follower_id), user_id=session["user_id"]).first():
-            continue
-        else:
-            sf = SelectedFollower(selected_follower_id=str(selected_follower_id), user_id=session["user_id"])
-            db.session.add(sf)
-
-
-    selected_followers_list = SelectedFollower.query.filter_by( user_id=session["user_id"]).all()
 
     session["invite_message"]  = request.form["invite_message"]
     session["selected_date"]  = datetime.datetime.strptime(request.form["calendar"], "%Y-%m-%d")
     session["decline_message"]  = request.form["decline_message"]
 
-    # messages = Message(invite_message=session["invite_message"], expiration_date=session["selected_date"],  decline_message=request.form["decline_message"], user_id=session["user_id"])
-    # db.session.add(messages)
-    #
-    # db.session.commit()
 
-    return render_template("/message_confirmation.html", selected_followers_list = selected_followers_list, invite_message=session["invite_message"], selected_date=session["selected_date"] + datetime.timedelta(hours=23, minutes=59, seconds=59), decline_message=session["decline_message"])
+    return render_template("/message_confirmation.html", info_added_followers = info_added_followers, invite_message=session["invite_message"], selected_date=session["selected_date"] + datetime.timedelta(hours=23, minutes=59, seconds=59), decline_message=session["decline_message"])
 
 # @app.route('/remove_messages', methods=["POST"])
 # def remove_messages():
@@ -228,6 +215,13 @@ def message_confirmation():
 def message_posting():
     api = return_twitter_api()
     api.PostUpdate(session["invite_message"] + " {}invitation/{}".format(os.environ.get('APP_BASE_URL'), session["user_id"]))
+
+    for selected_follower_id in session["selected_followers"]:
+        if SelectedFollower.query.filter_by(selected_follower_id=str(selected_follower_id), user_id=session["user_id"]).first():
+            continue
+        else:
+            sf = SelectedFollower(selected_follower_id=str(selected_follower_id), user_id=session["user_id"])
+            db.session.add(sf)
 
     messages = Message(invite_message=session["invite_message"], expiration_date=session["selected_date"],  decline_message=session["decline_message"], user_id=session["user_id"])
     db.session.add(messages)
