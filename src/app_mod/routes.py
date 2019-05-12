@@ -152,7 +152,7 @@ def return_twitter_api():
     return api
 
 #相互フォローリストを作成
-def return_mutual_list():
+def return_mutual_list(return_id_only=False):
     api = return_twitter_api()
 
     friends = set(api.GetFriendIDsPaged()[2])
@@ -161,11 +161,15 @@ def return_mutual_list():
     followEachOtherSet = friends & followers
     mutual_list = []
 
-    for users in followEachOtherSet:
-        u = api.GetUser(users)
-        mutual_list.append([u.name, u.screen_name, u.profile_image_url_https, u.id])
+    if return_id_only == True:
+        return followEachOtherSet
 
-    return mutual_list
+    else:
+        for users in followEachOtherSet:
+            u = api.GetUser(users)
+            mutual_list.append([u.name, u.screen_name, u.profile_image_url_https, u.id])
+
+        return mutual_list
 
 
 @app.route('/message_and_date', methods=['GET', 'POST'])
@@ -242,6 +246,26 @@ def show_status(user_id):
     expiration_date = Message.query.filter_by(user_id=user_id).first().expiration_date
 
     return render_template("/show_status.html", selected_followers=selected_followers, mutual_wanna_meet_list=mutual_wanna_meet_list, expiration_date=expiration_date)
+
+@app.route('/show_invitations_list', methods=["GET"])
+def show_invitations_list():
+    mutual_list = return_mutual_list(return_id_only=True)
+    existing_invitation_id_list = []
+
+    for id in mutual_list:
+        i = Message.query.filter_by(user_id=id).first()
+        if i:
+            existing_invitation_id_list.append(i.user_id)
+
+    api = return_twitter_api()
+    existing_invitation_info_added_list = []
+
+    for invitation_id in existing_invitation_id_list:
+        u = api.GetUser(invitation_id)
+        existing_invitation_info_added_list.append([u.name, u.screen_name, u.profile_image_url_https, u.id])
+
+
+    return render_template("/show_invitations_list.html", existing_invitation_info_added_list=existing_invitation_info_added_list)
 
 @app.route('/invitation/<host_id>', methods=["GET"])
 def show_invitation(host_id):

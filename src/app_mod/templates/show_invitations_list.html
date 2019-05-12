@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+
+  <p>会いたい人のボタンをクリックしてください。もしあなたが相手の会いたい人リストに含まれていればDMが飛びます。</p>
+
+  {% for name, screen_name, icon_url, user_id in existing_invitation_info_added_list %}
+  <div class="user_info">
+    <img src="{{icon_url}}" alt="">
+    name: {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
+
+    <form class="wanna_meet_button" action="/invitation/{{user_id}}" method="GET">
+      <button type="submit" class="btn">この人に会いたい</button>
+    </form>
+
+  </div>
+
+
+  {% endfor %}
+
+{% endblock %}

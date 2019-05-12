@@ -24,10 +24,9 @@
 
   {% endif %}
 
-  <!-- TODO: 招待状のあるフォロワーリスト画面を挟む -->
   {% if session.get("host_id") %}
-    <form class="" action="/invitation/{{session["host_id"]}}" method="GET">
-      <button type="submit" class="btn">フォロワーの招待に乗る</button>
+    <form class="" action="/show_invitations_list" method="GET">
+      <button type="submit" class="btn">招待状のある相互フォロワーを確認する</button>
     </form>
   {% endif %}
 
