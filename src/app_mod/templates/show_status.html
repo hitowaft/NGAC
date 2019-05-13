@@ -2,7 +2,15 @@
 {% block content %}
 
 <h3>招待リスト</h3>
-{{ selected_followers }}
+{% for name, screen_name, icon_url, user_id in selected_followers %}
+
+  <div class="user_info">
+    <img src="{{icon_url}}" alt="">
+    name: {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
+  </div>
+
+{% endfor %}
+
 
 <h3>この招待状の期限</h3>
 {{ expiration_date }}
@@ -12,6 +20,12 @@
   {{ mutual_wanna_meet_list }}
 {% endif %}
 
-<!-- TODO: メッセージを表示して、変更できるようにする？ -->
+  <h3>リストに入っていなかった人に表示されるメッセージ</h3>
+  {{ decline_message }}
+
+  <form class="destroy_invitation" action="/destroy_invitation/{{user_id}}" method="GET">
+    <button type="submit" class="btn">招待状を破棄する</button>
+  </form>
+
 
 {% endblock %}

@@ -9,7 +9,15 @@
   {% endfor %}
 <br>
   <h3>選択したフォロワー</h3>
-  {{info_added_followers}}<br>
+  <!-- {{info_added_followers}}<br> -->
+  {% for name, screen_name, icon_url, user_id in info_added_followers %}
+
+    <div class="user_info">
+      <img src="{{icon_url}}" alt="">
+      name: {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
+    </div>
+
+  {% endfor %}
 
   <form action="/message_confirmation" method="post">
       {{ form.hidden_tag() }}

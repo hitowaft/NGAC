@@ -1,7 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
 
+{% if existing_invitation_info_added_list %}
   <p>会いたい人のボタンをクリックしてください。もしあなたが相手の会いたい人リストに含まれていればDMが飛びます。</p>
+{% else %}
+  <p>現在招待状のあるユーザーは見つかりませんでした。</p>
+{% endif %}
 
   {% for name, screen_name, icon_url, user_id in existing_invitation_info_added_list %}
   <div class="user_info">

@@ -4,7 +4,15 @@
 <form class="confirmation" action="/message_posting" method="post">
 
   <h3>選択したフォロワー</h3>
-    {{ info_added_followers }}<br>
+    <!-- {{ info_added_followers }}<br> -->
+  {% for name, screen_name, icon_url, user_id in info_added_followers %}
+
+    <div class="user_info">
+      <img src="{{icon_url}}" alt="">
+      name: {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
+    </div>
+
+  {% endfor %}
   <h3>Twitterに投稿するメッセージ</h3>
     {{ invite_message }}<br>
   <h3>選択した締切日</h3>

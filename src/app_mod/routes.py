@@ -171,6 +171,16 @@ def return_mutual_list(return_id_only=False):
 
         return mutual_list
 
+#user_idを渡すとDBからname, screen_name, user_image_url, user_idのリストを返す
+def return_user_info_from_id(id_list):
+    info_added_list = []
+
+    for id in id_list:
+        u = User.query.filter_by(user_id=id).first()
+        info_added_list.append([u.user_name, u.screen_name, u.user_image_url, u.user_id])
+
+    return info_added_list
+
 
 @app.route('/message_and_date', methods=['GET', 'POST'])
 def select_invite_message_and_date():
@@ -181,10 +191,12 @@ def select_invite_message_and_date():
     #     session["selected_date"]  = request.form[".calendar"]
 
     global info_added_followers
-    info_added_followers = []
-    for follower_id in session["selected_followers"]:
-        user = User.query.filter_by(user_id=follower_id).first()
-        info_added_followers.append(user)
+    # info_added_followers = []
+    # for follower_id in session["selected_followers"]:
+    #     user = User.query.filter_by(user_id=follower_id).first()
+    #     info_added_followers.append(user)
+
+    info_added_followers = return_user_info_from_id(session["selected_followers"])
 
     return render_template("/message_and_date.html", info_added_followers=info_added_followers, form=form)
 
@@ -242,27 +254,53 @@ def message_posting():
 @app.route('/show_status/<user_id>', methods=["GET"])
 def show_status(user_id):
     selected_followers = SelectedFollower.query.filter_by(user_id=user_id).all()
-    mutual_wanna_meet_list = SelectedFollower.query.filter_by(user_id=user_id, has_sent_dm=True).all()
-    expiration_date = Message.query.filter_by(user_id=user_id).first().expiration_date
 
-    return render_template("/show_status.html", selected_followers=selected_followers, mutual_wanna_meet_list=mutual_wanna_meet_list, expiration_date=expiration_date)
+    ls = []
+    for u in selected_followers:
+        ls.append(u.selected_follower_id)
+    selected_followers = return_user_info_from_id(ls)
+
+    from_messageT_data = Message.query.filter_by(user_id=user_id).first()
+    expiration_date = from_messageT_data.expiration_date
+    decline_message = from_messageT_data.decline_message
+
+    mutual_wanna_meet_list = SelectedFollower.query.filter_by(user_id=user_id, has_sent_dm=True).all()
+
+    return render_template("/show_status.html", selected_followers=selected_followers, mutual_wanna_meet_list=mutual_wanna_meet_list, expiration_date=expiration_date, decline_message=decline_message, user_id=user_id)
+
+@app.route('/destroy_invitation/<user_id>', methods=["GET"])
+def destroy_invitation(user_id):
+    messages = Message.query.filter_by(user_id=user_id).first()
+    selected_followers = SelectedFollower.query.filter_by(user_id=user_id).all()
+
+    db.session.delete(messages)
+
+    for i in selected_followers:
+        db.session.delete(i)
+
+    db.session.commit()
+
+    return redirect("/")
+
 
 @app.route('/show_invitations_list', methods=["GET"])
 def show_invitations_list():
     mutual_list = return_mutual_list(return_id_only=True)
     existing_invitation_id_list = []
 
+    # 相互フォロワーの中から招待状のあるフォロワーidだけを抜き出す
     for id in mutual_list:
         i = Message.query.filter_by(user_id=id).first()
         if i:
             existing_invitation_id_list.append(i.user_id)
 
-    api = return_twitter_api()
-    existing_invitation_info_added_list = []
+    existing_invitation_info_added_list = return_user_info_from_id(existing_invitation_id_list)
 
-    for invitation_id in existing_invitation_id_list:
-        u = api.GetUser(invitation_id)
-        existing_invitation_info_added_list.append([u.name, u.screen_name, u.profile_image_url_https, u.id])
+    # for invitation_id in existing_invitation_id_list:
+    #     u = User.query.filter_by(user_id=invitation_id).first()
+    #     existing_invitation_info_added_list.append([u.user_name, u.screen_name, u.user_image_url, u.user_id])
+
+
 
 
     return render_template("/show_invitations_list.html", existing_invitation_info_added_list=existing_invitation_info_added_list)
