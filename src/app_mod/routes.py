@@ -10,7 +10,6 @@ import twitter
 from urllib.parse import parse_qsl
 
 app.secret_key = os.environ["APP_SECRET_KEY"]
-# from flask_sqlalchemy import SQLAlchemy
 
 
 consumer_key = os.environ["CONSUMER_KEY"]
@@ -187,15 +186,8 @@ def select_invite_message_and_date():
     form = MessageForm(request.form)
 
     session["selected_followers"]  = request.form.getlist("user_select")
-    # if request.form[".calendar"]:
-    #     session["selected_date"]  = request.form[".calendar"]
 
     global info_added_followers
-    # info_added_followers = []
-    # for follower_id in session["selected_followers"]:
-    #     user = User.query.filter_by(user_id=follower_id).first()
-    #     info_added_followers.append(user)
-
     info_added_followers = return_user_info_from_id(session["selected_followers"])
 
     return render_template("/message_and_date.html", info_added_followers=info_added_followers, form=form)
@@ -218,14 +210,6 @@ def message_confirmation():
 
     return render_template("/message_confirmation.html", info_added_followers = info_added_followers, invite_message=session["invite_message"], selected_date=session["selected_date"] + datetime.timedelta(hours=23, minutes=59, seconds=59), decline_message=session["decline_message"])
 
-# @app.route('/remove_messages', methods=["POST"])
-# def remove_messages():
-#     messages_to_rm = Message.query.filter_by(user_id=session["user_id"]).first()
-#
-#     db.session.delete(messages_to_rm)
-#     db.session.commit()
-#
-#     return render_template("/message_and_date.html")
 
 @app.route('/message_posting', methods=["GET", "POST"])
 def message_posting():
@@ -246,13 +230,12 @@ def message_posting():
 
     return render_template("/post_updated.html")
 
-# @app.route('/post_updated', methods=["GET"])
-# def post_updated():
-
-
 
 @app.route('/show_status/<user_id>', methods=["GET"])
 def show_status(user_id):
+    if session["user_id"] != user_id:
+        return redirect("/")
+
     selected_followers = SelectedFollower.query.filter_by(user_id=user_id).all()
 
     ls = []
@@ -295,13 +278,6 @@ def show_invitations_list():
             existing_invitation_id_list.append(i.user_id)
 
     existing_invitation_info_added_list = return_user_info_from_id(existing_invitation_id_list)
-
-    # for invitation_id in existing_invitation_id_list:
-    #     u = User.query.filter_by(user_id=invitation_id).first()
-    #     existing_invitation_info_added_list.append([u.user_name, u.screen_name, u.user_image_url, u.user_id])
-
-
-
 
     return render_template("/show_invitations_list.html", existing_invitation_info_added_list=existing_invitation_info_added_list)
 
