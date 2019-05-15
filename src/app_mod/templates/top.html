@@ -24,11 +24,13 @@
 
   {% endif %}
 
-  {% if session.get("host_id") %}
-    <form class="" action="/show_invitations_list" method="GET">
-      <button type="submit" class="btn">招待状のある相互フォロワーを確認する</button>
-    </form>
-  {% endif %}
+  <form class="" action="/show_invitations_list" method="GET">
+    <button type="submit" class="btn">招待状のある相互フォロワーを確認する</button>
+  </form>
+
+  <form class="" action="/delete_session" method="POST">
+    <button type="submit" class="btn">ログアウトする</button>
+  </form>
 
 {% endif %}
 

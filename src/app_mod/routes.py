@@ -35,6 +35,12 @@ def top():
 
     return render_template("top.html", message=message, exists_invitation=exists_invitation)
 
+@app.route('/delete_session', methods=["POST"])
+def delete_session():
+    session.clear()
+
+    return redirect("/")
+
 # 認証
 @app.route('/twitter/request_token', methods=['GET'])
 def get_twitter_request_token():
@@ -214,7 +220,9 @@ def message_confirmation():
 @app.route('/message_posting', methods=["GET", "POST"])
 def message_posting():
     api = return_twitter_api()
-    api.PostUpdate(session["invite_message"] + " {}invitation/{}".format(os.environ.get('APP_BASE_URL'), session["user_id"]))
+    # api.PostUpdate(session["invite_message"] + " {}invitation/{}".format(os.environ.get('APP_BASE_URL'), session["user_id"]))
+    api.PostUpdate(session["invite_message"] + " {}".format(os.environ.get('APP_BASE_URL')))
+
 
     for selected_follower_id in session["selected_followers"]:
         if SelectedFollower.query.filter_by(selected_follower_id=str(selected_follower_id), user_id=session["user_id"]).first():
