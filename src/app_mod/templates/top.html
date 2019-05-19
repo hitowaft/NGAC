@@ -1,38 +1,77 @@
 {% extends "layout.html" %}
 {% block content %}
-<h3>{{message}}</h3>
+<!-- <h3>{{message}}</h3> -->
 
-{% if message == "ログインしていません" %}
+  <!-- <p>ボタンをクリックしてログイン↓</p> -->
+  <div class="container my-4">
+    <!-- <h3>{{message}}</h3> -->
 
-  <p>ボタンをクリックしてログイン↓</p>
-  <form class="" action="/twitter/request_token" method="GET">
-    <button type="submit" class="btn">ログインする</button>
-  </form>
+    <div class="row align-items-center pt-5">
+      <!-- <div class="col-10 col-sm-6 col-md-5 col-lg-4 m-auto pb-5 pb-md-0"> -->
+      <div class="col-6 col-sm-12 col-md-5 col-lg-4 m-auto pb-5 pb-md-0">
 
-{% else %}
-  {% if exists_invitation == True %}
+        <img alt="image" class="img-fluid rounded-0" src="/static/note-2527454_640.jpg">
+      </div>
 
-    <form class="" action="/show_status/{{session["user_id"]}}" method="GET">
-      <button type="submit" class="btn">招待の状況を確認する</button>
-    </form>
+    <!-- <div class="col-12 ml-md-auto col-md-7 col-lg-6 pb-5 pb-md-0"> -->
+      <div class="col-sm-12 ml-md-auto col-md-7 col-lg-6 pb-5 pb-md-0">
 
-  {% else %}
+        <!-- <img alt="image" class="fdb-icon" src="https://cdn.jsdelivr.net/gh/froala/design-blocks@2.0.1/dist/imgs//icons/gift.svg"> -->
+        {% if message == "ログインしていません" %}
 
-    <form class="" action="/select_users" method="GET">
-      <button type="submit" class="btn">招待状を作成する</button>
-    </form>
+        <div class="bs-component">
+          <h3>{{message}}</h3>
+          <p>Twitterの相互フォロワーさんに会ってみたい！でも直接誘う勇気はない…。</p>
+          <p>利用規約に同意して</p>
+        </div>
+      <div class="row align-items-right">
 
-  {% endif %}
+          <div class="col">
+            <form class="form-group" action="/twitter/request_token" method="GET">
+              <input type="image" src="/static/sign-in-with-twitter-gray.png">
+              <!-- <button type="submit" class="col btn btn-outline-primary">ログイン</button> -->
+            </form>
+          </div>
+        {% else %}
+        <div class="bs-component">
+          <h3>{{message}}</h3>
+          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts</p>
+        </div>
 
-  <form class="" action="/show_invitations_list" method="GET">
-    <button type="submit" class="btn">招待状のある相互フォロワーを確認する</button>
-  </form>
+          {% if exists_invitation == True %}
 
-  <form class="" action="/delete_session" method="POST">
-    <button type="submit" class="btn">ログアウトする</button>
-  </form>
+            <div class="col">
+              <form class="form-group" action="/show_status/{{session["user_id"]}}" method="GET">
+                <button type="submit" class="col btn btn-outline-primary">招待の状況を確認する</button>
+              </form>
+            </div>
 
-{% endif %}
+          {% else %}
+            <div class="col">
+              <form class="form-group" action="/select_users" method="GET">
+                <button type="submit" class="col btn btn-outline-primary">招待状を作成する</button>
+              </form>
+            </div>
+
+
+          {% endif %}
+            <div class="col">
+              <form class="form-group" action="/show_invitations_list" method="GET">
+                <button type="submit" class="col btn btn-outline-primary">招待状のある相互フォロワーを確認する</button>
+              </form>
+            </div>
+
+            <div class="col">
+              <form class="form-group" action="/delete_session" method="POST">
+                <button type="submit" class="col btn btn-outline-secondary">ログアウトする</button>
+              </form>
+            </div>
+
+        {% endif %}
+      </div>
+      </div>
+    </div>
+  </div>
 
 
 {% endblock %}

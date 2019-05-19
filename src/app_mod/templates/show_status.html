@@ -1,31 +1,38 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<h3>招待リスト</h3>
-{% for name, screen_name, icon_url, user_id in selected_followers %}
+<div class="container">
+  <div class="row mt-3">
 
-  <div class="user_info">
-    <img src="{{icon_url}}" alt="">
-    name: {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
+    <div class="col-md-6">
+
+      <h3>招待リスト</h3>
+      {% for name, screen_name, icon_url, user_id in selected_followers %}
+
+        <div class="mb-2 user_info">
+          <img src="{{icon_url}}" alt="">
+          {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
+        </div>
+
+      {% endfor %}
+    </div>
+      <div class="col-md-6">
+        <h3>この招待状の期限</h3>
+        {{ expiration_date }}
+
+        {% if mutual_wanna_meet_list %}
+          <h3>あなたに会いたいと思っている人</h3>
+          {{ mutual_wanna_meet_list }}
+        {% endif %}
+
+          <h3>リストに入っていなかった人に表示されるメッセージ</h3>
+          {{ decline_message }}
+
+          <form class="destroy_invitation" action="/destroy_invitation/{{user_id}}" method="GET">
+        <button type="submit" class="btn btn-danger float-right">招待状を破棄する</button>
+      </form>
+    </div>
   </div>
-
-{% endfor %}
-
-
-<h3>この招待状の期限</h3>
-{{ expiration_date }}
-
-{% if mutual_wanna_meet_list %}
-  <h3>あなたに会いたいと思っている人</h3>
-  {{ mutual_wanna_meet_list }}
-{% endif %}
-
-  <h3>リストに入っていなかった人に表示されるメッセージ</h3>
-  {{ decline_message }}
-
-  <form class="destroy_invitation" action="/destroy_invitation/{{user_id}}" method="GET">
-    <button type="submit" class="btn">招待状を破棄する</button>
-  </form>
-
+</div>
 
 {% endblock %}
