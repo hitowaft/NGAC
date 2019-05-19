@@ -13,10 +13,15 @@
     <p>{{host_user_name}}さんはあなたに会いたいそうです。{{host_user_name}}さんにDMを送信しました。</p>
 
   {% else %}
-    <p>残念ながら今回あなたはリストに載っていませんでした。この結果が{{host_user_name}}さんに知られることはありません。</p>
-    <p>[メッセージ]</p>
-    <p>{{ decline_message }}</p>
-    <!-- decleineメッセージを表示 -->
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <p>残念ながら今回あなたはリストに載っていませんでした。この結果が{{host_user_name}}さんに知られることはありません。</p>
+        <p>[メッセージ]</p>
+        <p>{{ decline_message }}</p>
+      </div>
+    </div>
+  </div>
   {% endif %}
 {% endif %}
 

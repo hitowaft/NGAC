@@ -333,3 +333,7 @@ def show_invitation(host_id):
 @app.route('/usage', methods=["GET"])
 def usage():
     return render_template("/usage.html")
+
+@app.route('/terms_of_service', methods=["GET"])
+def terms():
+    return render_template("/terms_of_service.html")

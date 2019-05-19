@@ -9,17 +9,20 @@
   {% endif %}
 
   {% for name, screen_name, icon_url, user_id in existing_invitation_info_added_list %}
-    <div class="row card border-info mb-3">
-      <div class="user_info col-6">
-        <img src="{{icon_url}}" alt="">
-        name: {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
-      </div>
-        <form class="wanna_meet_button col-6" action="/invitation/{{user_id}}" method="GET">
-          <button type="submit" class="btn btn-outline-primary float-right">この人に会いたい</button>
-        </form>
-      </div>
-    </div>
-  </div>
+  <div class="card border-info my-auto">
+    <div class="row mb-3">
+        <div class="col-6">
+          <img src="{{icon_url}}" alt="">
+          {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
+        </div>
+        <div class="col-6">
+          <form class="wanna_meet_button" action="/invitation/{{user_id}}" method="GET">
+            <button type="submit" class="btn btn-lg my-auto btn-outline-primary btn-block">この人に会いたい</button>
+          </form>
+        </div>
+    </div>  </div>
+
+</div>
   {% endfor %}
 
 {% endblock %}
