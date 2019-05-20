@@ -6,7 +6,7 @@
   <div class="container my-4">
     <!-- <h3>{{message}}</h3> -->
 
-    <div class="row align-items-center pt-5">
+    <div class="row align-items-center pt-5 mb-5">
       <!-- <div class="col-10 col-sm-6 col-md-5 col-lg-4 m-auto pb-5 pb-md-0"> -->
       <div class="col-6 col-sm-12 col-md-5 col-lg-4 m-auto pb-5 pb-md-0">
 
@@ -21,8 +21,7 @@
 
         <div class="bs-component">
           <!-- <h3>{{message}}</h3> -->
-          <!-- <p>Twitterの相互フォロワーさんに会ってみたい！でも直接誘う勇気はない…。</p> -->
-          <p>ここにリード</p>
+          <p>Twitterの相互フォロワーさんに会ってみたい！でも直接誘う勇気はない…。そんなお悩みを解決します。</p>
         </div>
       <div class="row align-items-right">
 
@@ -32,29 +31,35 @@
               <input class="mt-0 ml-3" type="image" src="/static/sign-in-with-twitter-gray.png">
             </form>
           </div>
+        </div>
+      </div>
+      </div>
           <div class="container">
-            <div class="row text-left  mt-5">
-              <div class="col-12 col-md-4">
+            <div class="row mb-3">
+              <!-- <div class="col-12 col-md-4"> -->
                 <h3>Feature One</h3>
                 <p></p>
-              </div>
+            </div>
 
-              <div class="col-12 col-md-4 pt-5 pt-sm-4 pt-md-0">
-                <h3>Feature Two</h3>
-                <p> A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-              </div>
+              <!-- <div class="col-12 col-md-4 pt-5 pt-sm-4 pt-md-0"> -->
+            <div class="row mb-3">
+              <h3>Feature Two</h3>
+              <p> A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+            </div>
 
-              <div class="col-12 col-md-4 pt-5 pt-sm-4 pt-md-0">
-                <h3>Feature Three</h3>
-                <p>Even the all-powerful Pointing has no control about the <strong>blind texts</strong> it is an almost unorthographic life.</p>
-              </div>
+              <!-- </div> -->
+
+              <!-- <div class="col-12 col-md-4 pt-5 pt-sm-4 pt-md-0"> -->
+            <div class="row mb-3">
+              <h3>Feature Three</h3>
+              <p>Even the all-powerful Pointing has no control about the <strong>blind texts</strong> it is an almost unorthographic life.</p>
             </div>
           </div>
+            <!-- </div> -->
+          <!-- </div> -->
 
         {% else %}
-        <div class="bs-component mb-5">
           <h3>{{message}}</h3>
-        </div>
 
           {% if exists_invitation == True %}
 

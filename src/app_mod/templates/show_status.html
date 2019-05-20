@@ -8,25 +8,40 @@
 
       <h3>招待リスト</h3>
       {% for name, screen_name, icon_url, user_id in selected_followers %}
-
-        <div class="mb-2 user_info">
+      <div class="card border-info mb-2">
+        <div class="user_info card-body p-0">
           <img src="{{icon_url}}" alt="">
           {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
         </div>
+      </div>
+
 
       {% endfor %}
     </div>
-      <div class="col-md-6">
-        <h3>この招待状の期限</h3>
-        {{ expiration_date }}
+    <div class="col-md-6">
+
+      <div class="col card border-dark mb-3 p-0">
+        <div class="card-header">この招待状の期限</div>
+        <div class="card-body">
+            {{ expiration_date }}
+        </div>
+      </div>
 
         {% if mutual_wanna_meet_list %}
-          <h3>あなたに会いたいと思っている人</h3>
-          {{ mutual_wanna_meet_list }}
+        <div class="col card border-dark mb-3 p-0">
+          <div class="card-header">あなたに会いたいと思っている人</div>
+            <div class="card-body">
+            {{ mutual_wanna_meet_list }}
+            </div>
+        </div>
         {% endif %}
 
-          <h3>リストに入っていなかった人に表示されるメッセージ</h3>
-          {{ decline_message }}
+        <div class="col card border-dark mb-3 p-0">
+          <div class="card-header">リストに入っていなかった人に表示されるメッセージ</div>
+          <div class="card-body">
+            {{ decline_message }}
+          </div>
+        </div>
 
           <form class="destroy_invitation" action="/destroy_invitation/{{user_id}}" method="GET">
         <button type="submit" class="btn btn-danger float-right">招待状を破棄する</button>
