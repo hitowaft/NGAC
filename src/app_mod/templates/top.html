@@ -1,100 +1,80 @@
 {% extends "layout.html" %}
 {% block content %}
-<!-- <h3>{{message}}</h3> -->
 
-  <!-- <p>ボタンをクリックしてログイン↓</p> -->
-  <div class="container my-4">
-    <!-- <h3>{{message}}</h3> -->
+{% if message == "ログインしていません" %}
 
-    <div class="row align-items-center pt-5 mb-5">
-      <!-- <div class="col-10 col-sm-6 col-md-5 col-lg-4 m-auto pb-5 pb-md-0"> -->
-      <div class="col-6 col-sm-12 col-md-5 col-lg-4 m-auto pb-5 pb-md-0">
+  <div class="container my-5">
+    <div class="row mb-5">
+      <div class="col md-mt-auto align-self-center">
+        <p>Twitterの相互フォロワーさんに会ってみたい！でも直接誘う勇気はない…。そんなお悩みを解決します。</p>
 
-        <img alt="image" class="img-fluid rounded-0" src="/static/note-2527454_640.jpg">
-      </div>
-
-    <!-- <div class="col-12 ml-md-auto col-md-7 col-lg-6 pb-5 pb-md-0"> -->
-      <div class="col-sm-12 ml-md-auto col-md-7 col-lg-6 pb-5 pb-md-0">
-
-        <!-- <img alt="image" class="fdb-icon" src="https://cdn.jsdelivr.net/gh/froala/design-blocks@2.0.1/dist/imgs//icons/gift.svg"> -->
-        {% if message == "ログインしていません" %}
-
-        <div class="bs-component">
-          <!-- <h3>{{message}}</h3> -->
-          <p>Twitterの相互フォロワーさんに会ってみたい！でも直接誘う勇気はない…。そんなお悩みを解決します。</p>
+        <div class="card border-primary mb-5">
+          <p class="mb-0"><small><a href="/terms_of_service" target="_blank">利用規約</a>に同意してログイン↓</small></p>
+          <form class="form-group" action="/twitter/request_token" method="GET">
+            <input class="mt-0 ml-3" type="image" src="/static/sign-in-with-twitter-gray.png">
+          </form>
         </div>
-      <div class="row align-items-right">
+        <img alt="image" class="img-fluid d-none d-sm-block rounded-0" src="/static/note-2527454_640.jpg">
 
-          <div class="col card">
-            <p class="mb-0"><small><a href="/terms_of_service" target="_blank">利用規約</a>に同意してログイン↓</small></p>
-            <form class="form-group" action="/twitter/request_token" method="GET">
-              <input class="mt-0 ml-3" type="image" src="/static/sign-in-with-twitter-gray.png">
-            </form>
-          </div>
+
+      </div>
+      <div class="col md-mx-3">
+        <div class="col-12">
+          <h3 class="mb-0">Step 1</h3>
+          <img class="img-responsive center-block img-fluid" src="/static/mutual_birds.png" alt="image">
+          <p><strong>Twitterの相互フォロワー</strong>の中から会いたい人を選び、期限を決めるだけで招待状を作ることができます。作った招待状は相互フォローの人以外には見ることができません。</p>
+        </div>
+        <div class="col-12">
+          <h3>Step 2</h3>
+          <img class="img-responsive center-block img-fluid" src="/static/check_list.png" alt="image">
+          <p>招待リストに載っていた相手もあなたに会いたいと思えば、ダイレクトメッセージが届いてそのことがわかります。リストに載っていなかった相手には自動でお断りの文章が表示されます。</p>
         </div>
       </div>
-      </div>
-          <div class="container">
-            <div class="row mb-3">
-              <!-- <div class="col-12 col-md-4"> -->
-                <h3>Feature One</h3>
-                <p></p>
-            </div>
-
-              <!-- <div class="col-12 col-md-4 pt-5 pt-sm-4 pt-md-0"> -->
-            <div class="row mb-3">
-              <h3>Feature Two</h3>
-              <p> A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-            </div>
-
-              <!-- </div> -->
-
-              <!-- <div class="col-12 col-md-4 pt-5 pt-sm-4 pt-md-0"> -->
-            <div class="row mb-3">
-              <h3>Feature Three</h3>
-              <p>Even the all-powerful Pointing has no control about the <strong>blind texts</strong> it is an almost unorthographic life.</p>
-            </div>
-          </div>
-            <!-- </div> -->
-          <!-- </div> -->
-
-        {% else %}
-          <h3>{{message}}</h3>
-
-          {% if exists_invitation == True %}
-
-            <div class="col">
-              <form class="form-group" action="/show_status/{{session["user_id"]}}" method="GET">
-                <button type="submit" class="col btn btn-outline-primary">招待の状況を確認する</button>
-              </form>
-            </div>
-
-          {% else %}
-            <div class="col">
-              <form class="form-group" action="/select_users" method="GET">
-                <button type="submit" class="col btn btn-outline-primary">招待状を作成する</button>
-              </form>
-            </div>
-
-
-          {% endif %}
-            <div class="col">
-              <form class="form-group" action="/show_invitations_list" method="GET">
-                <button type="submit" class="col btn btn-outline-primary">招待状のある相互フォロワーを確認する</button>
-              </form>
-            </div>
-
-            <div class="col">
-              <form class="form-group" action="/delete_session" method="POST">
-                <button type="submit" class="col btn btn-outline-secondary">ログアウトする</button>
-              </form>
-            </div>
-
-        {% endif %}
-      </div>
+    </div>
+    <div class="row card mb-3 p-0">
+      <div class="col-12">
+        <h3>このサービスを使うと何が嬉しいのか？</h3>
+        <ul>
+          <li><p>「一緒にご飯食べる相手を募集したら、会いたい人じゃなくてちょっと苦手な人が会いたいと言ってくれたけど、断りにくい…。」というのを避けられます。</p></li>
+          <li><p>一方で誘いに乗る側は、もし招待状に自分の名前が載っていなくても、招待状を作った相手にあなたが会いたがっていたことをが知られることはないので安心して誘いに乗ることができます。「この人が会いたいのは自分ではないのでは？もし迷惑だと思われたらどうしよう…。」などという心配がありません。</p></li>
+        </ul>
       </div>
     </div>
   </div>
+
+{% else %}
+<div class="container my-5">
+  <h3>{{message}}</h3>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-6 mb-3">
+      <img alt="image" class="img-fluid rounded-0" src="/static/note-2527454_640.jpg">
+    </div>
+    <div class="col  align-self-center mx-10">
+      {% if exists_invitation == True %}
+      <form class="form-group" action="/show_status/{{session["user_id"]}}" method="GET">
+        <button type="submit" class="col btn btn-outline-primary">招待の状況を確認する</button>
+
+      {% else %}
+      <form class="form-group" action="/select_users" method="GET">
+        <button type="submit" class="col btn btn-outline-primary">招待状を作成する</button>
+      </form>
+      {% endif %}
+      <form class="form-group" action="/show_invitations_list" method="GET">
+        <button type="submit" class="col btn btn-outline-primary">招待状のある相互フォロワーを確認する</button>
+      </form>
+
+      <form class="form-group" action="/delete_session" method="POST">
+        <button type="submit" class="col btn btn-outline-secondary">ログアウトする</button>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+
+{% endif %}
 
 
 

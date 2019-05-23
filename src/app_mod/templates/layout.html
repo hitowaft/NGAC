@@ -1,14 +1,12 @@
 <!doctype html>
-<html>
+<html lang="ja">
   <head>
     <title>{{ title }}</title>
-    <!-- CSSファイルを追加 -->
     <link rel="stylesheet" href="/static/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <style>
       body {
@@ -58,7 +56,7 @@
       {% endif %}
       {% endwith %}
     {% block content %}{% endblock %}
-
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="/static/bootstrap.min.js"></script>
   </body>
 </html>

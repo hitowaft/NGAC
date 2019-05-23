@@ -14,11 +14,17 @@
 
   {% else %}
   <div class="container">
-    <div class="row">
-      <div class="col">
+    <div class="row pt-3">
+      <div class="col-12 mb-3">
         <p>残念ながら今回あなたはリストに載っていませんでした。この結果が{{host_user_name}}さんに知られることはありません。</p>
-        <p>[メッセージ]</p>
-        <p>{{ decline_message }}</p>
+      </div>
+      <div class="col card border-secondary mb-3 p-0">
+        <div class="card-header">
+          {{host_user_name}}さんからリストに載っていなかった人へのメッセージ
+        </div>
+        <div class="card-body">
+          <p>{{ decline_message }}</p>
+        </div>
       </div>
     </div>
   </div>
