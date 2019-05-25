@@ -53,7 +53,8 @@
     <div class="col  align-self-center mx-10">
       {% if exists_invitation == True %}
       <form class="form-group" action="/show_status/{{session["user_id"]}}" method="GET">
-        <button type="submit" class="col btn btn-outline-primary">招待の状況を確認する</button>
+        <button type="submit" class="col mb-2 btn btn-outline-primary">招待の状況を確認する</button>
+      </form>
 
       {% else %}
       <form class="form-group" action="/select_users" method="GET">

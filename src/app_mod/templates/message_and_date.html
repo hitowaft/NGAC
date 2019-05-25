@@ -2,13 +2,14 @@
 {% block content %}
 
 
-<div class="container">
+<div class="container my-5">
+  <!-- <div class="row">
+    {% for error in form.invite_message.errors %}
+      <span style="color: red;">{{ error }}</span>
+    {% endfor %}
+  </div> -->
   <div class="row">
     <div class="col">
-      {% for error in form.invite_message.errors %}
-        <span style="color: red;">{{ error }}</span>
-      {% endfor %}
-    <br>
       <h3>選択したフォロワー</h3>
       <!-- {{info_added_followers}}<br> -->
       {% for name, screen_name, icon_url, user_id in info_added_followers %}
@@ -19,7 +20,8 @@
         </div>
 
       {% endfor %}
-
+    </div>
+    <div class="col">
       <form action="/message_confirmation" method="post">
           {{ form.hidden_tag() }}
 
@@ -27,7 +29,8 @@
         <h3>締切日時を選ぶ</h3>
         <input class="calendar" name="calendar" id="calendar" type="text" placeholder="締め切り日時を選択する">
         <br>
-        <h3>{{ form.invite_message.label }}</h3>
+        <!-- <h3>{{ form.invite_message.label }}</h3> -->
+        <h3>招待メッセージを入力してください。（ツイート内容）</h3>
         <span class="count">0</span><br>
         {{ form.invite_message(size=110, placeholder="ここにメッセージを入力",  default=session["invite_message"], class_="invite_message")}}<br>
 
@@ -36,7 +39,7 @@
         <h3>選択しなかったユーザーから申し込みがあった場合のメッセージ</h3>
         {{ form.decline_message(size=110, placeholder="選択しなかったフォロワーにはここに入力した文章が表示されます",  default=session["decline_message"], class_="message_form")}}
 
-      <p>{{ form.submit() }}</p>
+      <p>{{ form.submit( class="btn btn-outline-primary") }}</p>
     </form>
     </div>
   </div>

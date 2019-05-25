@@ -281,7 +281,7 @@ def show_invitations_list():
 
     # 相互フォロワーの中から招待状のあるフォロワーidだけを抜き出す
     for id in mutual_list:
-        i = Message.query.filter_by(user_id=id).first()
+        i = Message.query.filter_by(user_id=str(id)).first()
         if i:
             existing_invitation_id_list.append(i.user_id)
 

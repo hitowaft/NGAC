@@ -4,7 +4,6 @@
 <form class="confirmation" action="/message_posting" method="post">
 
   <h3>選択したフォロワー</h3>
-    <!-- {{ info_added_followers }}<br> -->
   {% for name, screen_name, icon_url, user_id in info_added_followers %}
 
     <div class="user_info">
@@ -20,7 +19,7 @@
   <h3>選択しなかったフォロワーに表示されるメッセージ</h3>
     {{ decline_message }}<br>
 
-  <input type="submit" name="tweet" value="ツイートする">
+  <input type="submit" class="btn btn-outline-primary" name="tweet" value="ツイートする">
 </form>
 
 <!-- <form class="" action="/remove_messages" method="post">
