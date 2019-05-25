@@ -15,9 +15,10 @@
   {% else %}
   <div class="container">
     <div class="row pt-3">
-      <div class="col-12 mb-3">
-        <p>残念ながら今回あなたはリストに載っていませんでした。この結果が{{host_user_name}}さんに知られることはありません。</p>
+      <div class="col-12 mb-3 lead">
+        <p>残念ながら今回あなたはリストに載っていませんでした。あなたが会いたいと思っていたことを{{host_user_name}}さんに知られることはありません。</p>
       </div>
+      {% if decline_message != "no_message" %}
       <div class="col card border-secondary mb-3 p-0">
         <div class="card-header">
           {{host_user_name}}さんからリストに載っていなかった人へのメッセージ
@@ -26,6 +27,7 @@
           <p>{{ decline_message }}</p>
         </div>
       </div>
+      {% endif %}
     </div>
   </div>
   {% endif %}

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col card border-dark mb-3 p-0">
+      <div class="card-header">
+        このアプリの権限について
+      </div>
+      <div class="card-body">
+        <ul class="card-text">
+          <li>タイムラインのツイートを見ません。</li>
+          <li>勝手にこのアプリが新しくフォローをすることはありません。</li>
+          <li>同じく勝手にプロフィールを更新することはありません。</li>
+          <li>結果を伝えるためダイレクトメッセージを送ることがありますが、既存のダイレクトメッセージを見ることはありません。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col card border-dark mb-3 p-0">
+      <div class="card-body">
+        <ul class="card-text">
+          <li>招待リストに人を追加したい・招待リストから人を削除したい。</li>→
+            招待リストの編集機能はありません。一度招待状を破棄し、もう一度最初から招待状を作成してください。
+          <li>アイコンが消えることがある</li>→諦めてください。名前やアイコンはデータ取得のタイミングにより変更に対応しきれないことがあります。
+          <li>招待状を作成するのに時間がかかる</li>→フォロワーが多い人はデータを取得するのに時間がかかります。待ってください。
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}

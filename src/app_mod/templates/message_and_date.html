@@ -22,7 +22,7 @@
       {% endfor %}
     </div>
     <div class="col">
-      <form action="/message_confirmation" method="post">
+      <form action="/message_confirmation" method="post" class="form-group">
           {{ form.hidden_tag() }}
 
         <!-- 日時を選択 -->
@@ -32,14 +32,16 @@
         <!-- <h3>{{ form.invite_message.label }}</h3> -->
         <h3>招待メッセージを入力してください。（ツイート内容）</h3>
         <span class="count">0</span><br>
-        {{ form.invite_message(size=110, placeholder="ここにメッセージを入力",  default=session["invite_message"], class_="invite_message")}}<br>
+        {{ form.invite_message(size=110, placeholder="ここにメッセージを入力",  default=session["invite_message"], class_="invite_message form-control")}}<br>
 
 
         <!-- お断りの文章を入力 -->
-        <h3>選択しなかったユーザーから申し込みがあった場合のメッセージ</h3>
-        {{ form.decline_message(size=110, placeholder="選択しなかったフォロワーにはここに入力した文章が表示されます",  default=session["decline_message"], class_="message_form")}}
+        <h3>選択しなかったユーザーへのメッセージ（任意）</h3>
+        {{ form.decline_message(size=110, placeholder="選択しなかったフォロワー宛てにメッセージを表示させることができます",  default=session["decline_message"], class_="message_form form-control")}}
 
-      <p>{{ form.submit( class="btn btn-outline-primary") }}</p>
+      <div class="row justify-content-end m-auto">
+        {{ form.submit( class="btn btn-outline-primary mt-4 mr-2") }}
+      </div>
     </form>
     </div>
   </div>

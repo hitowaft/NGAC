@@ -16,10 +16,12 @@
     {{ invite_message }}<br>
   <h3>選択した締切日</h3>
     {{ selected_date }}<br>
+  {% if decline_message != "no_message" %}
   <h3>選択しなかったフォロワーに表示されるメッセージ</h3>
     {{ decline_message }}<br>
+  {% endif %}
 
-  <input type="submit" class="btn btn-outline-primary" name="tweet" value="ツイートする">
+  <input type="submit" class="btn btn-outline-primary mt-5" name="tweet" value="ツイートする">
 </form>
 
 <!-- <form class="" action="/remove_messages" method="post">

@@ -206,12 +206,14 @@ def message_confirmation():
     if not form.validate_on_submit():
         flash("メッセージは127文字以下で入力してください")
 
-        return render_template("/message_and_date.html", form=form)
+        return render_template("/message_and_date.html", form=form, info_added_followers=info_added_followers)
 
 
     session["invite_message"]  = request.form["invite_message"]
     session["selected_date"]  = datetime.datetime.strptime(request.form["calendar"], "%Y-%m-%d")
     session["decline_message"]  = request.form["decline_message"]
+    if session["decline_message"] == "":
+        session["decline_message"] = "no_message"
 
 
     return render_template("/message_confirmation.html", info_added_followers = info_added_followers, invite_message=session["invite_message"], selected_date=session["selected_date"] + datetime.timedelta(hours=23, minutes=59, seconds=59), decline_message=session["decline_message"])
@@ -330,9 +332,9 @@ def show_invitation(host_id):
         return render_template("/invitation.html", result_wanna_meet=result_wanna_meet, decline_message=decline_message, host_user_name=host_user.user_name)
 
 
-@app.route('/usage', methods=["GET"])
-def usage():
-    return render_template("/usage.html")
+@app.route('/faq', methods=["GET"])
+def faq():
+    return render_template("/faq.html")
 
 @app.route('/terms_of_service', methods=["GET"])
 def terms():

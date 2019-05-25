@@ -22,7 +22,7 @@
   <header>
     <div class="bs-component">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="/">コミュ障アプリ（仮</a>
+      <a class="navbar-brand" href="/">Maarik..</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -33,7 +33,7 @@
             <a class="nav-link" href="#">トップ <span class="sr-only">(current)</span></a>
           </li> -->
           <li class="nav-item">
-            <a class="nav-link" href="/usage">使い方</a>
+            <a class="nav-link" href="/faq">FAQ</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/terms_of_service">利用規約</a>
@@ -42,21 +42,27 @@
       </div>
     </nav>
     <!-- <a href="/">TOP</a>
-    <a href="/usage">使い方</a> -->
+    <a href="/faq">使い方</a> -->
   </header>
 
   <body>
+    <div class="container">
+
     {% with messages = get_flashed_messages() %}
        {% if messages %}
        <ul>
           {% for message in messages %}
-          <li class="flash_message">{{ message }}</li>
+          <li class="flash_message row text-danger lead justify-content-end mt-md-3">{{ message }}</li>
           {% endfor %}
       </ul>
       {% endif %}
       {% endwith %}
     {% block content %}{% endblock %}
+  </div>
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="/static/bootstrap.min.js"></script>
+    <script src="/static/main.js"></script>
+
   </body>
 </html>
