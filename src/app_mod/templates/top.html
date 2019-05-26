@@ -9,7 +9,7 @@
         <p>Twitterの相互フォロワーさんに会ってみたい！でも直接誘う勇気はない…。そんなお悩みを解決します。</p>
 
         <div class="card border-primary mb-5">
-          <p class="mb-0"><small><a href="/terms_of_service" target="_blank">利用規約</a>に同意して開始する↓</small></p>
+          <p class="mb-0"><small><a href="/terms_of_service" target="_blank">利用規約</a>と<a href="/privacy_policy">プライバシーポリシー</a>に同意して開始する↓</small></p>
           <form class="form-group" action="/twitter/request_token" method="GET">
             <input class="mt-0 ml-3" type="image" src="/static/sign-in-with-twitter-gray.png">
           </form>
@@ -36,7 +36,7 @@
         <h3>このサービスを使うと何が嬉しいのか？</h3>
         <ul>
           <li><p>「一緒にご飯食べる相手を募集したら、会いたい人じゃなくてちょっと苦手な人が会いたいと言ってくれたけど、断りにくい…。」というのを避けられます。</p></li>
-          <li><p>一方で誘いに乗る側は、もし招待状に自分の名前が載っていなくても、招待状を作った相手にあなたが会いたがっていたことをが知られることはないので安心して誘いに乗ることができます。「この人が会いたいのは自分ではないのでは？もし迷惑だと思われたらどうしよう…。」などという心配がありません。</p></li>
+          <li><p>一方で誘いに乗る側は、「この人が会いたいのは自分ではないのでは？もし迷惑だと思われたらどうしよう…。」などという心配をすることなく気軽に誘いに乗ることができます。仮に自分がリストに載っていなかった場合でも、会いたがっていたことを相手に知られることはないので、気まずい思いをせずに済みます。</p></li>
         </ul>
       </div>
     </div>
@@ -62,7 +62,7 @@
       </form>
       {% endif %}
       <form class="form-group" action="/show_invitations_list" method="GET">
-        <button type="submit" class="col btn btn-outline-primary">招待状のある相互フォロワーを確認する</button>
+        <button type="submit" class="col btn btn-outline-primary">招待状のある相互フォロワーを見る</button>
       </form>
 
       <form class="form-group" action="/delete_session" method="POST">

@@ -35,6 +35,13 @@
             {{ mutual_wanna_meet_list }}
             </div>
         </div>
+        {% else %}
+        <div class="col card border-dark mb-3 p-0">
+          <div class="card-header">あなたに会いたいと思っている人</div>
+            <div class="card-body">
+            まだいないようです。
+            </div>
+        </div>
         {% endif %}
 
         {% if decline_message != "no_message" %}

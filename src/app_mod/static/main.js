@@ -15,8 +15,8 @@ $(function(){
       }
   });
 
-  $("#toggle-btn").on('click', function(){
-    $(this).button('toggle').text('会いたい');
-  });
-
+  // $("#toggle-btn").on('click', function(){
+  //   $(this).button('toggle').text('会いたい');
+  // });
+  //
 });

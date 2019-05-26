@@ -10,3 +10,5 @@ class MessageForm(FlaskForm):
     def validate_message(self, invite_message):
         if len(invite_message.data) > 127:
             raise ValidationError("127文字以下で入力してください")
+
+# class ContactForm(FlaskForm):

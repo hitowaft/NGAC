@@ -339,3 +339,11 @@ def faq():
 @app.route('/terms_of_service', methods=["GET"])
 def terms():
     return render_template("/terms_of_service.html")
+
+@app.route('/privacy_policy', methods=["GET"])
+def privacy_policy():
+    return render_template("/privacy_policy.html")
+
+@app.route('/contact', methods=["GET"])
+def contact():
+    return render_template("/contact.html")
