@@ -3,28 +3,35 @@
 
 <div class="container">
   {% if existing_invitation_info_added_list %}
-    <p>会いたい人のボタンをクリックしてください。もしあなたが相手の会いたい人リストに含まれていればDMが飛びます。</p>
+    <p class="lead">会いたい人のボタンをクリックしてください。もしあなたが相手の会いたい人リストに含まれていればDMが飛びます。<br>含まれていなければ、あなたが相手に会いたがっていたことを知られることはありません。</p>
 
 
 
   {% for name, screen_name, icon_url, user_id in existing_invitation_info_added_list %}
-  <div class="card border-info mb-2">
-    <div class="row">
-        <div class="col-md-6 card-body">
+  {% for invite_message in invite_message_list %}
+
+  <!-- <div class="card border-info mb-2"> -->
+    <div class="row card border-info mb-2">
+        <div class="col-md-6 p-0">
           <img src="{{icon_url}}" alt="">
           {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
         </div>
-        <div class="col-md-6 card-body">
+        <div class="col">
+          <p>"{{ invite_message }}"</p>
+        </div>
+        <div class="col pb-2">
           <form class="wanna_meet_button" action="/invitation/{{user_id}}" method="GET">
             <button type="submit" class="btn btn-lg my-auto btn-outline-primary btn-block">この人に会いたい</button>
           </form>
         </div>
     </div>
   </div>
-</div>
+<!-- </div> -->
+  {% endfor %}
   {% endfor %}
 
+
   {% else %}
-    <p>現在招待状のあるユーザーは見つかりませんでした。</p>
+    <p class="lead mt-5">現在招待状のあるユーザーは見つかりませんでした。</p>
   {% endif %}
 {% endblock %}

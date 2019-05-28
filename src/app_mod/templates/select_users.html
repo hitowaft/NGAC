@@ -23,18 +23,18 @@
           <input class="form-check-input" type="checkbox" name="user_select" value="{{user_id}}">
       </div>
     </div>
-    <!-- <div class="row"> -->
-      <!-- <div class="col-12 card-header">
-        {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
-      </div> -->
-    <!-- </div> -->
     </div>
     {% if loop.index % 3 == 0 %}
       </div>
     {% endif %}
     {% endfor %}
+    <div class="w-100"></div>
 
-      <input type="submit" class="btn btn-outline-primary" name="submit" value="送信">
+      <div class="row justify-contents-end">
+        <div class="col-md-5">
+          <input type="submit" class="btn btn-outline-primary" name="submit" value="送信">
+        </div>
+      </div>
 
 </div>
 

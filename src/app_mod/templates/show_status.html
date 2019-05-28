@@ -28,21 +28,23 @@
         </div>
       </div>
 
-        {% if mutual_wanna_meet_list %}
+        <div class="col card border-dark mb-3 p-0">
+          <div class="card-header">招待文</div>
+          <div class="card-body">
+              {{ invite_message }}
+          </div>
+        </div>
+
         <div class="col card border-dark mb-3 p-0">
           <div class="card-header">あなたに会いたいと思っている人</div>
             <div class="card-body">
-            {{ mutual_wanna_meet_list }}
+            {% if mutual_wanna_meet_list %}
+              {{ mutual_wanna_meet_list }}
+            {% else %}
+              まだいないようです。
+            {% endif %}
             </div>
         </div>
-        {% else %}
-        <div class="col card border-dark mb-3 p-0">
-          <div class="card-header">あなたに会いたいと思っている人</div>
-            <div class="card-body">
-            まだいないようです。
-            </div>
-        </div>
-        {% endif %}
 
         {% if decline_message != "no_message" %}
         <div class="col card border-dark mb-3 p-0">

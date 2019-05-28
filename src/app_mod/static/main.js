@@ -2,7 +2,7 @@
 $(function(){
   // const flatpickr = require("flatpickr");
 
-  var textareaCountMax = 127;
+  var textareaCountMax = 140;
   // $("[name=invite_message]").bind('keydown keyup keypress change',function(){
   $(".invite_message").bind('keydown keyup keypress change',function(){
       var thisValueLength = $(this).val().length;
@@ -15,8 +15,4 @@ $(function(){
       }
   });
 
-  // $("#toggle-btn").on('click', function(){
-  //   $(this).button('toggle').text('会いたい');
-  // });
-  //
 });

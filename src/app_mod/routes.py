@@ -204,7 +204,7 @@ import datetime
 def message_confirmation():
     form = MessageForm(request.form)
     if not form.validate_on_submit():
-        flash("メッセージは127文字以下で入力してください")
+        flash("メッセージは140文字以下で入力してください")
 
         return render_template("/message_and_date.html", form=form, info_added_followers=info_added_followers)
 
@@ -222,8 +222,8 @@ def message_confirmation():
 @app.route('/message_posting', methods=["GET", "POST"])
 def message_posting():
     api = return_twitter_api()
-    # api.PostUpdate(session["invite_message"] + " {}invitation/{}".format(os.environ.get('APP_BASE_URL'), session["user_id"]))
-    api.PostUpdate(session["invite_message"] + " {}".format(os.environ.get('APP_BASE_URL')))
+    # api.PostUpdate(session["invite_message"] + " {}".format(os.environ.get('APP_BASE_URL')))
+    api.PostUpdate("コミュ障向けご飯誘いアプリで招待状を作成しました。　" + os.environ.get('APP_BASE_URL'))
 
 
     for selected_follower_id in session["selected_followers"]:
@@ -254,12 +254,13 @@ def show_status(user_id):
     selected_followers = return_user_info_from_id(ls)
 
     from_messageT_data = Message.query.filter_by(user_id=user_id).first()
+    invite_message = from_messageT_data.invite_message
     expiration_date = from_messageT_data.expiration_date
     decline_message = from_messageT_data.decline_message
 
     mutual_wanna_meet_list = SelectedFollower.query.filter_by(user_id=user_id, has_sent_dm=True).all()
 
-    return render_template("/show_status.html", selected_followers=selected_followers, mutual_wanna_meet_list=mutual_wanna_meet_list, expiration_date=expiration_date, decline_message=decline_message, user_id=user_id)
+    return render_template("/show_status.html", selected_followers=selected_followers, mutual_wanna_meet_list=mutual_wanna_meet_list, invite_message=invite_message, expiration_date=expiration_date, decline_message=decline_message, user_id=user_id)
 
 @app.route('/destroy_invitation/<user_id>', methods=["GET"])
 def destroy_invitation(user_id):
@@ -280,16 +281,18 @@ def destroy_invitation(user_id):
 def show_invitations_list():
     mutual_list = return_mutual_list(return_id_only=True)
     existing_invitation_id_list = []
+    invite_message_list = []
 
     # 相互フォロワーの中から招待状のあるフォロワーidだけを抜き出す
     for id in mutual_list:
         i = Message.query.filter_by(user_id=str(id)).first()
         if i:
             existing_invitation_id_list.append(i.user_id)
+            invite_message_list.append(i.invite_message)
 
     existing_invitation_info_added_list = return_user_info_from_id(existing_invitation_id_list)
 
-    return render_template("/show_invitations_list.html", existing_invitation_info_added_list=existing_invitation_info_added_list)
+    return render_template("/show_invitations_list.html", existing_invitation_info_added_list=existing_invitation_info_added_list, invite_message_list=invite_message_list)
 
 @app.route('/invitation/<host_id>', methods=["GET"])
 def show_invitation(host_id):

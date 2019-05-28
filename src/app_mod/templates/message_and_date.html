@@ -30,7 +30,7 @@
         <input class="calendar" name="calendar" id="calendar" type="text" placeholder="締め切り日時を選択する">
         <br>
         <!-- <h3>{{ form.invite_message.label }}</h3> -->
-        <h3>招待メッセージを入力してください。（ツイート内容）</h3>
+        <h3>140字以内で招待メッセージを入力してください。</h3>
         <span class="count">0</span><br>
         {{ form.invite_message(size=110, placeholder="ここにメッセージを入力",  default=session["invite_message"], class_="invite_message form-control")}}<br>
 
@@ -51,23 +51,31 @@
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-  //  if (document.GetElementById("#calendar").value){
-  //   var default_date = document.GetElementById("#calendar").value;
+  // if (document.getElementById("#calendar").value){
+  //    var default_date = document.getElementById("#calendar").value;
   // } else {
   //   var default_date = "today"
-  // }
+  // };
+  // var default_date = "today";
+  // if (document.getElementById("#calendar").value){
+  //   window.sessionStorage.setItem([default_date],[document.getElementById("#calendar").value]);
+  //   var default_date = window.sessionStorage.getItem([default_date]);
+  // } else {
+  //   var default_date = "today"
+  // };
 
   const config = {
     minDate: "today",
     defaultDate: "today"
     // defaultDate: default_date
-  }
+  };
   flatpickr('#calendar', config);
 </script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script type=text/javascript src="/static/main.js"></script>
 
 <!-- 文字数カウンター -->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(function(){
     $('.invite_message').bind('keydown keyup keypress change',function(){
