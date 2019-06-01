@@ -170,10 +170,12 @@ def return_mutual_list(return_id_only=False):
         return followEachOtherSet
 
     else:
-        for users in followEachOtherSet:
-            u = api.GetUser(users)
-            mutual_list.append([u.name, u.screen_name, u.profile_image_url_https, u.id])
+        # for users in followEachOtherSet:
+        #     u = api.GetUser(users)
+        #     mutual_list.append([u.name, u.screen_name, u.profile_image_url_https, u.id])
 
+        # mutual_ids = [api.GetUser(users) for users in followEachOtherSet]
+        mutual_list = [[u.name, u.screen_name, u.profile_image_url_https, u.id] for u in [api.GetUser(users) for users in followEachOtherSet]]
         return mutual_list
 
 #user_idを渡すとDBからname, screen_name, user_image_url, user_idのリストを返す
@@ -223,7 +225,7 @@ def message_confirmation():
 def message_posting():
     api = return_twitter_api()
     # api.PostUpdate(session["invite_message"] + " {}".format(os.environ.get('APP_BASE_URL')))
-    api.PostUpdate("コミュ障向けご飯誘いアプリで招待状を作成しました。　" + os.environ.get('APP_BASE_URL'))
+    api.PostUpdate("コミュ障向けご飯誘いアプリで招待状を作成しました→　" + os.environ.get('APP_BASE_URL'))
 
 
     for selected_follower_id in session["selected_followers"]:
@@ -248,9 +250,12 @@ def show_status(user_id):
 
     selected_followers = SelectedFollower.query.filter_by(user_id=user_id).all()
 
-    ls = []
-    for u in selected_followers:
-        ls.append(u.selected_follower_id)
+    # ls = []
+    # for u in selected_followers:
+    #     ls.append(u.selected_follower_id)
+
+    ls = [u.selected_follower_id for u in selected_followers]
+
     selected_followers = return_user_info_from_id(ls)
 
     from_messageT_data = Message.query.filter_by(user_id=user_id).first()
