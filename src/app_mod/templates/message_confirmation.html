@@ -1,29 +1,32 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<form class="confirmation" action="/message_posting" method="post">
+<div class="container">
+  <div class="row">
+    <form class="confirmation" action="/message_posting" method="post">
+      <div class="col mb-4">
+      <h3>選択したフォロワー</h3>
+      {% for name, screen_name, icon_url, user_id in info_added_followers %}
 
-  <h3>選択したフォロワー</h3>
-  {% for name, screen_name, icon_url, user_id in info_added_followers %}
+        <div class="user_info">
+          <img src="{{icon_url}}" alt="">
+          {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
+        </div>
 
-    <div class="user_info">
-      <img src="{{icon_url}}" alt="">
-      {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
+      {% endfor %}
+      <h3>招待メッセージ</h3>
+        {{ invite_message }}<br>
+      <h3>選択した締切日<small>（期限が来ると自動的に招待状は削除されます）</small></h3>
+        {{ selected_date }}<br>
+      {% if decline_message != "no_message" %}
+      <h3>選択しなかったフォロワーに表示されるメッセージ</h3>
+        {{ decline_message }}<br>
+      {% endif %}
+      </div>
     </div>
-
-  {% endfor %}
-  <h3>Twitterに投稿するメッセージ</h3>
-    {{ invite_message }}<br>
-  <h3>選択した締切日</h3>
-    {{ selected_date }}<br>
-  {% if decline_message != "no_message" %}
-  <h3>選択しなかったフォロワーに表示されるメッセージ</h3>
-    {{ decline_message }}<br>
-  {% endif %}
-
-  <input type="submit" class="btn btn-outline-primary mt-5" name="tweet" value="ツイートする">
-</form>
-
+    <input type="submit" class="btn btn-outline-primary" name="tweet" value="ツイートする">
+  </form>
+</div>
 <!-- <form class="" action="/remove_messages" method="post">
   <input type="submit" name="go_back" value="やり直す">
 </form> -->

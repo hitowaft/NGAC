@@ -37,10 +37,10 @@
 
         <!-- お断りの文章を入力 -->
         <h3>選択しなかったユーザーへのメッセージ（任意）</h3>
-        {{ form.decline_message(size=110, placeholder="選択しなかったフォロワー宛てにメッセージを表示させることができます",  default=session["decline_message"], class_="message_form form-control")}}
+        {{ form.decline_message(size=110, placeholder="選択しなかったフォロワー宛てにメッセージを表示させることができます",  default=session["decline_message"], class_="message_form form-control mb-4")}}
 
       <div class="row justify-content-end m-auto">
-        {{ form.submit( class="btn btn-outline-primary mt-4 mr-2") }}
+        {{ form.submit( class="btn btn-outline-primary mr-2") }}
       </div>
     </form>
     </div>

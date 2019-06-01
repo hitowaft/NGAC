@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
 <div class="container p-0">
 <!-- mutual_listはname, screen_name, iconのURL, user_id -->
 {% for name, screen_name, icon_url, user_id in mutual_list %}
@@ -34,7 +33,7 @@
 </div>
 <div class="row text-right">
   <div class="col">
-    <input type="submit" class="btn btn-lg btn-outline-primary" name="submit" value="確認する">
+    <input type="submit" class="btn btn-lg btn-outline-primary" name="submit" value="次へ">
   </div>
 </div>
 

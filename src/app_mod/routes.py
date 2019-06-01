@@ -130,8 +130,8 @@ from message_form import MessageForm
 
 @app.route('/select_users', methods=['GET'])
 def show_mutual_following_list():
-    mutual_list = return_mutual_list()
 
+    mutual_list = return_mutual_list()
     for followers in mutual_list:
         if User.query.filter_by(user_id=str(followers[3])).first():
             continue
@@ -170,12 +170,11 @@ def return_mutual_list(return_id_only=False):
         return followEachOtherSet
 
     else:
-        # for users in followEachOtherSet:
-        #     u = api.GetUser(users)
-        #     mutual_list.append([u.name, u.screen_name, u.profile_image_url_https, u.id])
+        for users in followEachOtherSet:
+            u = api.GetUser(users)
+            mutual_list.append([u.name, u.screen_name, u.profile_image_url_https, u.id])
 
-        # mutual_ids = [api.GetUser(users) for users in followEachOtherSet]
-        mutual_list = [[u.name, u.screen_name, u.profile_image_url_https, u.id] for u in [api.GetUser(users) for users in followEachOtherSet]]
+        # mutual_list = [[u.name, u.screen_name, u.profile_image_url_https, u.id] for u in [api.GetUser(users) for users in followEachOtherSet]]
         return mutual_list
 
 #user_idを渡すとDBからname, screen_name, user_image_url, user_idのリストを返す
