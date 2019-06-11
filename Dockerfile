@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM alpine:latest
 
 RUN mkdir /app
 
@@ -10,9 +10,9 @@ WORKDIR /app/src
 
 
 
-RUN apt update && apt install python3 python3-pip vim sqlite3 sudo -y
-RUN sudo apt install python-dev libpq-dev -y
-RUN pip3 install -r requirements.txt
+RUN apk add --update python3 py-pip vim sqlite sudo
+RUN sudo apk add python3-dev postgresql-dev py-psycopg2
+RUN pip3 install --upgrade -r requirements.txt
 
 
 

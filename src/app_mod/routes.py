@@ -205,7 +205,7 @@ import datetime
 def message_confirmation():
     form = MessageForm(request.form)
     if not form.validate_on_submit():
-        flash("メッセージは140文字以下で入力してください")
+        flash("メッセージは1文字以上140文字以下で入力してください")
 
         return render_template("/message_and_date.html", form=form, info_added_followers=info_added_followers)
 

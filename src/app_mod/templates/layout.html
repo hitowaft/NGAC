@@ -69,7 +69,7 @@
        {% if messages %}
        <ul>
           {% for message in messages %}
-          <li class="flash_message row text-danger lead justify-content-end">{{ message }}</li>
+          <li class="flash_message alert alert-danger row justify-content-end" role="alert">{{ message }}</li>
           {% endfor %}
       </ul>
       {% endif %}
