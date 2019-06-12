@@ -20,14 +20,14 @@
 
       {% endfor %}
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 px-0">
       <form action="/message_confirmation" method="post" class="form-group">
           {{ form.hidden_tag() }}
 
 
         <div class="col card mb-3 px-0">
           <h4 class="card-header mb-1">日付をクリックして締切日時を選ぶ</h4>
-          <input class="calendar mx-3" name="calendar" id="calendar" type="text">
+          <input class="calendar" name="calendar" id="calendar" type="text">
         </div>
 
         <div class="col card mb-3 px-0">

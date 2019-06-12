@@ -4,28 +4,51 @@
 <div class="container">
   <div class="row">
     <form class="confirmation" action="/message_posting" method="post">
-      <div class="col mb-4">
-      <h3>選択したフォロワー</h3>
-      {% for name, screen_name, icon_url, user_id in info_added_followers %}
+      <div class="col mb-4 p-0">
+      <div class="col card mb-3 px-0">
+        <h4 class="card-header mb-1">選択したフォロワー</h4>
+        {% for name, screen_name, icon_url, user_id in info_added_followers %}
 
-        <div class="user_info">
-          <img src="{{icon_url}}" alt="">
-          {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
-        </div>
+          <div class="user_info card-text px-1">
+            <img src="{{icon_url}}" alt="">
+            {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
+          </div>
 
-      {% endfor %}
-      <h3>招待メッセージ</h3>
-        {{ invite_message }}<br>
-      <h3>選択した締切日<small>（期限が来ると自動的に招待状は削除されます）</small></h3>
-        {{ selected_date }}<br>
-      {% if decline_message != "no_message" %}
-      <h3>選択しなかったフォロワーに表示されるメッセージ</h3>
-        {{ decline_message }}<br>
-      {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="col card mb-3 px-0">
+        <h4 class="card-header mb-1">選択した締切日<small>（期限が来ると自動的に招待状は削除されます）</small></h4>
+          <div class="card-text px-1">
+            {{ selected_date }}
+          </div>
       </div>
     </div>
+
+      <div class="col mb-4 p-0">
+        <div class="col card mb-3 px-0">
+          <h4 class="card-header mb-1">招待メッセージ</h4>
+            <div class="card-text px-1">
+              {{ invite_message }}
+            </div>
+        </div>
+
+
+        {% if decline_message != "no_message" %}
+        <div class="col card mb-3 px-0">
+          <h4 class="card-header mb-1">選択しなかったフォロワーに表示されるメッセージ</h4>
+            <div class="card-text px-1">
+              {{ decline_message }}
+            </div>
+        </div>
+        {% endif %}
+      </div>
+
+    <!-- </div> -->
     <input type="submit" class="btn btn-outline-primary" name="tweet" value="ツイートする">
   </form>
+</div>
+
 </div>
 <!-- <form class="" action="/remove_messages" method="post">
   <input type="submit" name="go_back" value="やり直す">
