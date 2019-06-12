@@ -9,35 +9,37 @@
     {% endfor %}
   </div> -->
   <div class="row">
-    <div class="col">
-      <h3>選択したフォロワー</h3>
-      <!-- {{info_added_followers}}<br> -->
+    <div class="col card mb-3  px-0">
+      <h4 class="card-header mb-1">選択したフォロワー</h4>
+      <!-- {{info_added_followers}} -->
       {% for name, screen_name, icon_url, user_id in info_added_followers %}
-
-        <div class="mb-2 user_info">
+        <div class="mb-2 user_info card-text px-2">
           <img src="{{icon_url}}" alt="">
           {{name}}(<a href="https://twitter.com/intent/user?screen_name={{screen_name}}">@{{screen_name}}</a>)
         </div>
 
       {% endfor %}
     </div>
-    <div class="col">
+    <div class="col-md-6">
       <form action="/message_confirmation" method="post" class="form-group">
           {{ form.hidden_tag() }}
 
-        <!-- 日時を選択 -->
-        <h3>締切日時を選ぶ</h3>
-        <input class="calendar" name="calendar" id="calendar" type="text" placeholder="締め切り日時を選択する">
-        <br>
-        <!-- <h3>{{ form.invite_message.label }}</h3> -->
-        <h3>140字以内で招待メッセージを入力してください。</h3>
-        <span class="count">0</span><br>
-        {{ form.invite_message(size=110, placeholder="ここにメッセージを入力",  default=session["invite_message"], class_="invite_message form-control")}}<br>
 
+        <div class="col card mb-3 px-0">
+          <h4 class="card-header mb-1">日付をクリックして締切日時を選ぶ</h4>
+          <input class="calendar mx-3" name="calendar" id="calendar" type="text">
+        </div>
 
-        <!-- お断りの文章を入力 -->
-        <h3>選択しなかったユーザーへのメッセージ（任意）</h3>
-        {{ form.decline_message(size=110, placeholder="選択しなかったフォロワー宛てにメッセージを表示させることができます",  default=session["decline_message"], class_="message_form form-control mb-4")}}
+        <div class="col card mb-3 px-0">
+          <h4 class="card-header mb-1">140字以内で招待メッセージを入力してください。</h4>
+          <span class="count ml-3">0</span>
+          {{ form.invite_message(size=110, placeholder="ここにメッセージを入力",  default=session["invite_message"], class_="invite_message form-control")}}
+        </div>
+
+        <div class="col card mb-3 px-0">
+          <h4 class="card-header mb-1">選択しなかったユーザーへのメッセージ（任意）</h4>
+          {{ form.decline_message(size=110, placeholder="選択しなかったフォロワー宛てにメッセージを表示させることができます",  default=session["decline_message"], class_="message_form form-control")}}
+        </div>
 
       <div class="row justify-content-end m-auto">
         {{ form.submit( class="btn btn-outline-primary mr-2") }}
