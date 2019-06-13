@@ -224,7 +224,7 @@ def message_confirmation():
 def message_posting():
     api = return_twitter_api()
     # api.PostUpdate(session["invite_message"] + " {}".format(os.environ.get('APP_BASE_URL')))
-    api.PostUpdate("コミュ障向けご飯誘いアプリで招待状を作成しました→　" + os.environ.get('APP_BASE_URL'))
+    api.PostUpdate('ご飯誘いアプリ「あわよい飯」で招待状を作成しました→　' + os.environ.get('APP_BASE_URL'))
 
 
     for selected_follower_id in session["selected_followers"]:

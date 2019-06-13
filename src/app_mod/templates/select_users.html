@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="container p-0">
+  <p class="lead">リストに入れる人を選んでください。</p>
 <!-- mutual_listはname, screen_name, iconのURL, user_id -->
 {% for name, screen_name, icon_url, user_id in mutual_list %}
   {% if loop.first == True or (loop.index - 1) % 2 == 0 %}
