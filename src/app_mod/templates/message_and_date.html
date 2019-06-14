@@ -53,25 +53,25 @@
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-  // if (document.getElementById("#calendar").value){
-  //    var default_date = document.getElementById("#calendar").value;
-  // } else {
-  //   var default_date = "today"
-  // };
-  // var default_date = "today";
-  // if (document.getElementById("#calendar").value){
-  //   window.sessionStorage.setItem([default_date],[document.getElementById("#calendar").value]);
-  //   var default_date = window.sessionStorage.getItem([default_date]);
-  // } else {
-  //   var default_date = "today"
-  // };
+  var picked_date = window.sessionStorage.getItem(["picked_date"]);
+
+  if (picked_date != undefined) {
+    default_date = picked_date;
+  } else {
+    default_date = "today";
+  };
+
 
   const config = {
     minDate: "today",
-    defaultDate: "today"
-    // defaultDate: default_date
+    defaultDate: default_date,
+    onChange: function(selectedDates, dateStr, instance) {
+      sessionStorage.setItem("picked_date", document.getElementById('calendar').value);
+    }
   };
+
   flatpickr('#calendar', config);
+
 </script>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
