@@ -1,0 +1,12 @@
+image: flask_app
+services:
+  - web
+
+production:
+  stage: deploy
+  script:
+    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/app-for-pngac.git
+    - git push heroku master
+    - echo "Deployed to production server"
+  only:
+    - master
