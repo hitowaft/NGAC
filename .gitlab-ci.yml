@@ -1,14 +1,10 @@
-image: registry.gitlab.com/hitowaft/ngac:latest
-#
-# before_script:
-#   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-
-production:
-  stage: deploy
-  script:
-    # - docker build --pull
-    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/app-for-pngac.git
-    - git push heroku master
-    - echo "Deployed to production server"
+push-heroku:
   only:
     - master
+  image: docker:stable
+  services:
+    - docker:dind
+  script:
+    - echo $HEROKU_TOKEN | docker login --username=_ --password-stdin registry.heroku.com
+    - docker build -t registry.heroku.com/$HEROKU_APP/web .
+    - docker push registry.heroku.com/$HEROKU_APP/web
