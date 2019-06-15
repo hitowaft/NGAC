@@ -9,4 +9,4 @@ push-heroku:
     - echo $HEROKU_TOKEN | docker login --username=_ --password-stdin registry.heroku.com
     - docker build -t registry.heroku.com/$HEROKU_APP/web .
     - docker push registry.heroku.com/$HEROKU_APP/web
-    - heroku container:release web
+    - docker run
