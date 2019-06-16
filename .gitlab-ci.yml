@@ -9,6 +9,8 @@ push-heroku:
     - echo $HEROKU_TOKEN | docker login --username=_ --password-stdin registry.heroku.com
     - docker build -t registry.heroku.com/$HEROKU_APP/web .
     - docker push registry.heroku.com/$HEROKU_APP/web
-    - yum install curl
-    - curl https://cli-assets.heroku.com/install.sh | sh
+
+release-heroku:
+  image: registry.gitlab.com/hitowaft/ngac/heroku_release:latest
+  script:
     - heroku container:release web
