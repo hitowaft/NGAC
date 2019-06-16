@@ -11,4 +11,5 @@ push-heroku:
     - docker push registry.heroku.com/$HEROKU_APP/web
 
     - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app app-for-pngac
+
     
