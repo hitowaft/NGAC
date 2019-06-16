@@ -2,7 +2,6 @@
 push-heroku:
   only:
     - master
-  stage: build
   image: docker:stable
   services:
     - docker:dind
@@ -11,8 +10,5 @@ push-heroku:
     - docker build -t registry.heroku.com/$HEROKU_APP/web .
     - docker push registry.heroku.com/$HEROKU_APP/web
 
-release-heroku:
-  stage: deploy
-  image: registry.gitlab.com/hitowaft/ngac/heroku_release:latest
-  script:
+    - docker run registry.gitlab.com/hitowaft/ngac/heroku_release:latest
     - heroku container:release web
