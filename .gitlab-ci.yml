@@ -10,5 +10,4 @@ push-heroku:
     - docker build -t registry.heroku.com/$HEROKU_APP/web .
     - docker push registry.heroku.com/$HEROKU_APP/web
 
-    - docker run registry.gitlab.com/hitowaft/ngac/heroku_release:latest
-    - heroku container:release web
+    - docker run -it registry.gitlab.com/hitowaft/ngac/heroku_release:latest bash "heroku container:release web"
